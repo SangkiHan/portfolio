@@ -90,12 +90,20 @@ export const improvements: Improvement[] = [
     blogUrl: 'https://sangkihan.github.io/posts/db-migration/',
   },
   {
-    title: 'Kafka + Prometheus + Grafana 모니터링 스택 구축',
+    title: 'Prometheus + Grafana 서버 VM 모니터링 구축',
     details: [
-      'Java Agent 방식의 JMX Exporter 도입(가장 안정적)으로 Kafka 브로커 메트릭 수집',
-      'kafka-exporter로 Consumer Lag 실시간 추적, 컨슈머 그룹별 처리 지연 시각화',
+      'Node Exporter로 Azure VM 리소스(CPU, 메모리, 디스크, 네트워크) 메트릭 수집',
       'JVM 힙 메모리 80% 임계값 초과 시 5분 대기 후 Slack 알림 발송 (jvm_gc_live_data_size_bytes 기준)',
-      'Prometheus HA 구성 및 Grafana 대시보드로 브로커 처리량, 파티션 오프셋, 컨슈머 Lag 통합 모니터링',
+      'Prometheus HA 구성으로 모니터링 단일 장애점 제거, Grafana 대시보드로 서버 상태 통합 시각화',
+    ],
+    blogUrl: 'https://sangkihan.github.io/posts/prometheus-grafana-monitoring/',
+  },
+  {
+    title: 'Kafka Consumer Lag 모니터링 구축',
+    details: [
+      'Java Agent 방식의 JMX Exporter 도입으로 Kafka 브로커 메트릭(처리량, 파티션 오프셋) 수집',
+      'kafka-exporter로 Consumer Lag 실시간 추적, 컨슈머 그룹별 처리 지연 시각화',
+      'Grafana 대시보드에서 브로커 처리량·파티션 오프셋·Consumer Lag을 통합 모니터링해 병목 조기 감지',
     ],
     blogUrl: 'https://sangkihan.github.io/posts/kafka-grafana-monitoring/',
   },
