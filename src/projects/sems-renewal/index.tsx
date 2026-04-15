@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import archImg from '../../assets/renewal-sems/리뉴얼 SEMS 아키텍처.png';
+import archWhite from '../../assets/renewal-sems/리뉴얼 SEMS 아키텍처_white.png';
+import archDark from '../../assets/renewal-sems/리뉴얼 SEMS 아키텍처_dark.png';
 import { Card } from '../../components/shared/Card';
 import { ImprovementItem } from '../../components/shared/ImprovementItem';
 import { meta, improvements } from './data';
@@ -27,11 +28,8 @@ const ArchitectureSection = () => {
 
       <div className={`overflow-hidden transition-all duration-500 ${open ? 'max-h-[2000px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
         <div className="rounded-2xl border border-outline-variant/10 overflow-hidden">
-          <img
-            src={archImg}
-            alt="리뉴얼 SEMS 아키텍처"
-            className="w-full h-auto block"
-          />
+          <img src={archWhite} alt="리뉴얼 SEMS 아키텍처" className="w-full h-auto block dark:hidden" />
+          <img src={archDark} alt="리뉴얼 SEMS 아키텍처" className="w-full h-auto hidden dark:block" />
         </div>
       </div>
     </div>
