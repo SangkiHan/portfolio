@@ -1,111 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-dim: var(--primary-dim);
+  --color-primary-container: var(--primary-container);
+  --color-primary-on: var(--primary-on);
+  
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-low: var(--surface-low);
+  --color-surface-highest: var(--surface-highest);
+  --color-surface-lowest: var(--surface-lowest);
+  --color-surface-variant: var(--surface-variant);
+  
+  --color-on-surface: var(--on-surface);
+  --color-on-variant: var(--on-variant);
+  
+  --color-tertiary-container: var(--tertiary-container);
+  
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  --font-manrope: "Manrope", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-space: "Space Grotesk", monospace;
+  
+  --letter-spacing-tightest: -0.02em;
+  --radius-xl: 0.75rem;
+}
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --primary: #545f73;
+  --primary-dim: #485367;
+  --primary-container: #d8e3fb;
+  --primary-on: #f6f7ff;
+  
+  --surface: #f7f9fb;
+  --surface-dim: #cfdce3;
+  --surface-low: #f0f4f7;
+  --surface-highest: #d9e4ea;
+  --surface-lowest: #ffffff;
+  --surface-variant: #d9e4ea;
+  
+  --on-surface: #2a3439;
+  --on-variant: #566166;
+  
+  --tertiary-container: #e3dbfd;
+  
+  --outline: #717c82;
+  --outline-variant: #a9b4b9;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+.dark {
+  --primary: #dae6fe;
+  --primary-dim: #cad5ed;
+  --primary-container: #354053;
+  --primary-on: #1a2230;
+  
+  --surface: #121212;
+  --surface-dim: #0b0f10;
+  --surface-low: #1a1a1a;
+  --surface-highest: #2a2a2a;
+  --surface-lowest: #000000;
+  --surface-variant: #333333;
+  
+  --on-surface: #f6f7ff;
+  --on-variant: #a9b4b9;
+  
+  --tertiary-container: #3e3a54;
+  
+  --outline: #566166;
+  --outline-variant: #333333;
+}
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-inter antialiased;
+    margin: 0;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-manrope;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+@layer components {
+  .tech-tag {
+    @apply bg-tertiary-container text-on-surface font-space text-[0.7rem] px-2 py-0.5 rounded-full uppercase tracking-tighter transition-colors;
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
