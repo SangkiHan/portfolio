@@ -1,4 +1,3 @@
-import { ServiceGroup, ForkArrow } from '../../components/Architecture';
 import type { ProjectMeta, Improvement } from '../types';
 import asIsWhite from '../../assets/renewal-sems/as_is_datapipeline_white.png';
 import asIsDark from '../../assets/renewal-sems/as_is_datapipeline_dark.png';
