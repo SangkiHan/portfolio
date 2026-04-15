@@ -4,9 +4,10 @@ import type { ProjectMeta } from '../../projects/types';
 interface CardProps {
   meta: ProjectMeta;
   children: ReactNode;
+  architectureSlot?: ReactNode;
 }
 
-export const Card = ({ meta, children }: CardProps) => (
+export const Card = ({ meta, children, architectureSlot }: CardProps) => (
   <div className="bg-surface-low rounded-3xl p-10 border border-outline-variant/10 shadow-sm overflow-hidden">
     <div className="mb-8">
       <div className="flex items-center gap-3 mb-3">
@@ -28,6 +29,9 @@ export const Card = ({ meta, children }: CardProps) => (
         ))}
       </div>
     </div>
+    {architectureSlot && (
+      <div className="mb-8">{architectureSlot}</div>
+    )}
     <div className="border-t border-outline-variant/10 divide-y divide-outline-variant/10">
       {children}
     </div>
