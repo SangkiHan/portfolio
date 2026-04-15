@@ -1,121 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { PuppyNote } from './projects/puppynote';
+import { SemsRenewal } from './projects/sems-renewal';
+import { SemsMaintenance } from './projects/sems-maintenance';
+import { Luckkids } from './projects/luckkids';
+import { Planin } from './projects/planin';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode);
+  }, [darkMode]);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+    <div className="min-h-screen bg-surface text-on-surface transition-colors duration-400 font-inter text-left">
+      <nav className="fixed w-full top-0 z-50 bg-surface-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 h-20 flex items-center justify-between px-6">
+        <div className="flex items-center gap-4">
+          <span className="font-space font-bold text-[0.65rem] uppercase tracking-[0.3em] bg-primary text-primary-on px-2 py-1 rounded-sm">
+            Backend
+          </span>
+          <h1 className="text-lg font-manrope font-bold tracking-tightest uppercase">한상기</h1>
         </div>
         <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          onClick={() => setDarkMode(!darkMode)}
+          className="w-10 h-10 flex items-center justify-center bg-surface-lowest hover:bg-surface-low rounded-xl border border-outline-variant/20 shadow-sm"
         >
-          Count is {count}
+          {darkMode ? '☀️' : '🌙'}
         </button>
-      </section>
+      </nav>
 
-      <div className="ticks"></div>
+      <main className="max-w-4xl mx-auto px-6 pt-32 pb-32">
+        <section id="projects" className="space-y-16">
+          <PuppyNote />
+          <SemsRenewal />
+          <SemsMaintenance />
+          <Luckkids />
+          <Planin />
+        </section>
+      </main>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <footer className="bg-on-surface text-surface py-20 px-6 text-center border-t border-white/5 font-space text-[0.65rem] font-bold uppercase tracking-[0.3em]">
+        © {new Date().getFullYear()} SANGKI HAN. SYSTEM LOGIC APPLIED.
+      </footer>
+    </div>
+  );
+};
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
-}
-
-export default App
+export default App;
