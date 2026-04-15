@@ -67,4 +67,12 @@ export const improvements: Improvement[] = [
     ],
     blogUrl: 'https://sangkihan.github.io/posts/logstash-mysql-elasticsearch-sync/',
   },
+  {
+    title: 'GitHub Actions → AWS CodePipeline 배포 파이프라인 전환',
+    details: [
+      '서버 보안 정책상 SSH 포트 외부 허용 차단으로 기존 GitHub Actions self-hosted runner 방식 배포 불가',
+      'AWS CodePipeline(Source → Build → Deploy) 구조로 전환해 외부 SSH 없이 배포 가능하도록 재구성',
+      'CodeBuild에서 Docker 이미지 빌드 후 ECR 푸시, CodeDeploy로 EC2에 무중단 배포까지 자동화',
+    ],
+  },
 ];
