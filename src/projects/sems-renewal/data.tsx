@@ -1,5 +1,9 @@
 import { ServiceGroup, ForkArrow } from '../../components/Architecture';
 import type { ProjectMeta, Improvement } from '../types';
+import asIsWhite from '../../assets/renewal-sems/as_is_datapipeline_white.png';
+import asIsDark from '../../assets/renewal-sems/as_is_datapipeline_dark.png';
+import toBeWhite from '../../assets/renewal-sems/to_be_datapipeline_white.png';
+import toBeDark from '../../assets/renewal-sems/to_be_datapipeline_dark.png';
 
 export const meta: ProjectMeta = {
   title: '리뉴얼 SEMS (GS25 편의점 관제 시스템)',
@@ -20,48 +24,41 @@ export const improvements: Improvement[] = [
       'pg_partman 확장 모듈로 매월 자동 파티션 생성 및 6개월 이상 오래된 파티션 자동 삭제',
       '쿼리 응답시간 12,857ms → 945ms (13.6배 향상), 각 파티션에 독립 인덱스 생성으로 추가 최적화',
     ],
-    diagram: (
-      <div className="mt-4 rounded-xl border border-dashed border-outline-variant/30 bg-surface-lowest/60 h-48 flex items-center justify-center">
-        {/* TODO: PostgreSQL 파티셔닝 구조도 (월별 파티션 테이블 구조 및 프루닝 동작 다이어그램) */}
-        <span className="font-space text-[0.65rem] text-on-variant/40 uppercase tracking-widest">
-          [ PostgreSQL 파티셔닝 구조도 ]
-        </span>
-      </div>
-    ),
     blogUrl: 'https://sangkihan.github.io/posts/postgresql-partitioning/',
   },
   {
-    title: 'Kafka 기반 IoT 게이트웨이 아키텍처로 실시간 처리 전환',
+    title: '데이터 유실 방지를 위한 Kafka 기반 데이터 파이프라인 구축',
     metric: '17,000 devices',
     details: [
       '17,000개 IoT 디바이스의 5분 간격 데이터를 처리하던 Azure Function App을 Kafka로 대체',
-      '5개 파티션 / 5개 컨슈머 구성으로 17,000건 메시지를 5.59초 내 처리 달성',
+      '6개 파티션 / 3개 컨슈머 구성으로 17,000건 메시지 처리',
       'rowKey를 MongoDB _id로 사용한 idempotent upsert 구현으로 중복 메시지 처리 보장',
       'KRaft 모드(ZooKeeper 없는 Kafka)로 운영 복잡도 감소, 배치 처리 방식에서 실시간 스트리밍으로 전환',
+      '오류 발생 시 오류 메시지를 별도 Kafka 토픽에 저장해 재처리 및 원인 분석 용이성 확보',
     ],
     diagram: (
-      <div className="bg-surface-lowest rounded-2xl p-8 border border-primary/10 overflow-x-auto mt-4">
-        {/* Kafka IoT 게이트웨이 아키텍처 다이어그램 */}
-        <div className="flex items-center gap-8 min-w-max">
-          <ServiceGroup title="External" count={1} label="IoT x17k" isExternal={true} />
-          <div className="flex flex-col items-center gap-1 opacity-30">
-            <div className="w-10 h-px bg-primary border-t border-dashed border-primary" />
-            <span className="text-[6px] font-space font-bold uppercase tracking-widest">MQTT</span>
+      <div className="mt-4 flex flex-col gap-4">
+        {/* AS-IS */}
+        <div className="rounded-xl border border-outline-variant/20 overflow-hidden">
+          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/20 flex items-center gap-2">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">AS-IS</span>
+            <span className="font-space text-[0.6rem] text-on-surface">Function App 오류 시 데이터 유실 · 5분 배치 시간차 · 오류 시 사용자 불편</span>
           </div>
-          <ServiceGroup title="Broker" count={1} label="Kafka" sub="5 Partitions" />
-          <div className="w-8 h-0.5 bg-primary/20 relative">
-            <div className="absolute right-0 -top-[3px] w-2 h-2 border-t-2 border-r-2 border-primary rotate-45" />
+          <div className="bg-surface-lowest">
+            <img src={asIsWhite} alt="AS-IS 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
+            <img src={asIsDark} alt="AS-IS 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
           </div>
-          <div className="flex flex-col gap-3">
-            <ServiceGroup title="Consumer" count={1} label="Worker #1" />
-            <ServiceGroup title="Consumer" count={1} label="Worker #2~5" sub="x4" />
+        </div>
+        {/* TO-BE */}
+        <div className="rounded-xl border border-primary/20 overflow-hidden">
+          <div className="px-4 py-2 bg-primary/5 border-b border-primary/10 flex items-center gap-2">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-primary/70">TO-BE</span>
+            <span className="font-space text-[0.6rem] text-on-surface">Kafka 기반 실시간 스트리밍 · 재처리 보장 · 데이터 유실 없음</span>
           </div>
-          <ForkArrow />
-          <ServiceGroup title="Storage" count={1} label="MongoDB" sub="idempotent upsert" />
-          <div className="w-8 h-0.5 bg-primary/20 relative">
-            <div className="absolute right-0 -top-[3px] w-2 h-2 border-t-2 border-r-2 border-primary rotate-45" />
+          <div className="bg-surface-lowest">
+            <img src={toBeWhite} alt="TO-BE 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
+            <img src={toBeDark} alt="TO-BE 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
           </div>
-          <ServiceGroup title="API" count={1} label="Backend" sub="Spring Boot 3" />
         </div>
       </div>
     ),

@@ -6,6 +6,10 @@ export const meta: ProjectMeta = {
   period: '2026.01 ~ 현재',
   type: 'study',
   tech: ['Java 17', 'Spring Boot 3', 'MySQL', 'Redis', 'Elasticsearch', 'Logstash', 'AWS S3', 'CloudFront'],
+  links: [
+    { label: 'App Store', url: 'https://apps.apple.com/kr/app/puppynote/id6760515755', icon: 'appstore' },
+    { label: 'GitHub', url: 'https://github.com/PuppyNote', icon: 'github' },
+  ],
 };
 
 export const improvements: Improvement[] = [
@@ -48,11 +52,143 @@ export const improvements: Improvement[] = [
       'Redis 장애 시 DB에 직접 fallback하는 예외 처리로 가용성 보장',
     ],
     diagram: (
-      <div className="mt-4 rounded-xl border border-dashed border-outline-variant/30 bg-surface-lowest/60 h-48 flex items-center justify-center">
-        {/* TODO: Redis Write-Behind Cache 패턴 다이어그램 (요청 흐름도: API → Redis → Batch → MySQL) */}
-        <span className="font-space text-[0.65rem] text-on-variant/40 uppercase tracking-widest">
-          [ Write-Behind Cache 패턴 다이어그램 ]
-        </span>
+      <div className="mt-4 space-y-3">
+        {/* 실시간 요청 흐름 */}
+        <div className="rounded-xl border border-outline-variant/20 bg-surface-lowest overflow-hidden">
+          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/20">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">실시간 요청 흐름</span>
+          </div>
+          <div className="px-5 py-4 overflow-x-auto">
+            <div className="flex items-center gap-2 min-w-max">
+              {/* Client */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-16 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-wider text-on-surface">Client</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">POST /like</span>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* Cache Miss Check */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-24 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.5rem] uppercase tracking-tight text-on-surface leading-tight">Cache Miss?<br/>DB에서 초기화</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">count · liked</span>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* Lua Script */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.5rem] uppercase tracking-tight text-primary leading-tight">Lua Script<br/>원자적 토글</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-primary/60 uppercase">Race Condition 차단</span>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* Redis Keys */}
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-1">
+                  <div className="rounded border border-outline-variant/20 bg-surface-low px-2 py-1 text-center">
+                    <span className="font-space text-[0.5rem] text-on-variant/70 leading-tight block">user:liked</span>
+                    <span className="font-space text-[0.45rem] text-on-variant/40">SET 0/1 + TTL</span>
+                  </div>
+                  <div className="rounded border border-outline-variant/20 bg-surface-low px-2 py-1 text-center">
+                    <span className="font-space text-[0.5rem] text-on-variant/70 leading-tight block">like:count</span>
+                    <span className="font-space text-[0.45rem] text-on-variant/40">INCR / DECR</span>
+                  </div>
+                </div>
+                <div className="flex gap-1">
+                  <div className="rounded border border-primary/20 bg-primary/5 px-2 py-1 text-center">
+                    <span className="font-space text-[0.5rem] text-primary/80 leading-tight block">delta:add</span>
+                    <span className="font-space text-[0.45rem] text-primary/40">SADD userId</span>
+                  </div>
+                  <div className="rounded border border-primary/20 bg-primary/5 px-2 py-1 text-center">
+                    <span className="font-space text-[0.5rem] text-primary/80 leading-tight block">delta:remove</span>
+                    <span className="font-space text-[0.45rem] text-primary/40">SADD userId</span>
+                  </div>
+                  <div className="rounded border border-outline-variant/30 bg-surface-low px-2 py-1 text-center">
+                    <span className="font-space text-[0.5rem] text-on-variant/70 leading-tight block">dirty</span>
+                    <span className="font-space text-[0.45rem] text-on-variant/40">SADD postId</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 배치 동기화 흐름 */}
+        <div className="rounded-xl border border-outline-variant/20 bg-surface-lowest overflow-hidden">
+          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/20 flex items-center gap-3">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">배치 동기화</span>
+            <span className="font-space text-[0.55rem] text-on-variant/40">@Scheduled — 1분 주기</span>
+          </div>
+          <div className="px-5 py-4 overflow-x-auto">
+            <div className="flex items-center gap-2 min-w-max">
+              {/* Scheduler */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-20 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.5rem] uppercase tracking-tight text-on-surface leading-tight">Scheduler<br/>1분 주기</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* RENAME dirty */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.5rem] uppercase tracking-tight text-on-surface leading-tight">dirty RENAME<br/>원자적 분리</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">처리 중 유입 손실 없음</span>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* popDelta */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.5rem] uppercase tracking-tight text-primary leading-tight">popDelta<br/>add / remove</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-primary/60 uppercase">RENAME 원자적 분리</span>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* MySQL */}
+              <div className="flex flex-col gap-1">
+                <div className="rounded border border-primary/20 bg-primary/5 px-3 py-1.5 text-center">
+                  <span className="font-space text-[0.5rem] text-primary/80 leading-tight block font-bold">INSERT IGNORE</span>
+                  <span className="font-space text-[0.45rem] text-primary/40">like→unlike→like 중복 방지</span>
+                </div>
+                <div className="rounded border border-outline-variant/20 bg-surface-low px-3 py-1.5 text-center">
+                  <span className="font-space text-[0.5rem] text-on-variant/70 leading-tight block font-bold">DELETE</span>
+                  <span className="font-space text-[0.45rem] text-on-variant/40">취소한 userId 일괄 삭제</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-0.5 opacity-40">
+                <div className="w-6 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary -ml-1" />
+              </div>
+              {/* MySQL DB */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-16 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-wider text-on-surface">MySQL</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">post_like</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     ),
     blogUrl: 'https://sangkihan.github.io/posts/redis-post-like-write-behind/',
@@ -70,9 +206,9 @@ export const improvements: Improvement[] = [
   {
     title: 'GitHub Actions → AWS CodePipeline 배포 파이프라인 전환',
     details: [
-      '서버 보안 정책상 SSH 포트 외부 허용 차단으로 기존 GitHub Actions self-hosted runner 방식 배포 불가',
+      '서버 SSH 포트 외부 허용 차단으로 기존 GitHub Actions self-hosted runner 방식 배포 불가',
       'AWS CodePipeline(Source → Build → Deploy) 구조로 전환해 외부 SSH 없이 배포 가능하도록 재구성',
-      'CodeBuild에서 Docker 이미지 빌드 후 ECR 푸시, CodeDeploy로 EC2에 무중단 배포까지 자동화',
+      'CodeBuild에서 Jar 빌드 후, CodeDeploy로 EC2에 무중단 배포까지 자동화',
     ],
   },
 ];

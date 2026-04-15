@@ -6,6 +6,10 @@ export const meta: ProjectMeta = {
   period: '2023.10 ~ 현재',
   type: 'study',
   tech: ['Java 17', 'Spring Boot 3', 'MySQL', 'JPA', 'Jenkins', 'Docker', 'AWS Lambda', 'EventBridge', 'S3', 'CloudFront', 'LightSail'],
+  links: [
+    { label: 'App Store', url: 'https://apps.apple.com/kr/app/luckkids-%EB%9F%AD%ED%82%A4%EC%A6%88-%ED%96%89%EC%9A%B4%EC%9D%84-%ED%82%A4%EC%9A%B0%EB%8A%94-%EC%8A%B5%EA%B4%80-%EC%95%B1/id6475259179', icon: 'appstore' },
+    { label: 'GitHub', url: 'https://github.com/luckkids/luckkids-server', icon: 'github' },
+  ],
 };
 
 export const improvements: Improvement[] = [
