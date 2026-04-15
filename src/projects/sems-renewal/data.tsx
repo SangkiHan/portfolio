@@ -1,0 +1,102 @@
+import { ServiceGroup, ForkArrow } from '../../components/Architecture';
+import type { ProjectMeta, Improvement } from '../types';
+
+export const meta: ProjectMeta = {
+  title: '리뉴얼 SEMS (GS25 편의점 관제 시스템)',
+  role: 'Backend Developer',
+  period: '2025.05 ~ 현재',
+  org: '티앤엠테크',
+  type: 'work',
+  tech: ['Java 17', 'Spring Boot 3', 'PostgreSQL', 'MongoDB', 'Kafka', 'Azure', 'Prometheus', 'Grafana', 'Docker'],
+};
+
+export const improvements: Improvement[] = [
+  {
+    title: 'PostgreSQL 파티셔닝으로 날씨 예보 데이터 쿼리 13.6배 향상',
+    metric: '13.6x faster',
+    details: [
+      '600만 건 규모의 날씨 예보 테이블에 report_dttm 기준 월별 Range Partitioning 적용',
+      '파티션 프루닝(Partition Pruning)으로 쿼리 시 불필요한 파티션 스캔 완전 제거',
+      'pg_partman 확장 모듈로 매월 자동 파티션 생성 및 6개월 이상 오래된 파티션 자동 삭제',
+      '쿼리 응답시간 12,857ms → 945ms (13.6배 향상), 각 파티션에 독립 인덱스 생성으로 추가 최적화',
+    ],
+    diagram: (
+      <div className="mt-4 rounded-xl border border-dashed border-outline-variant/30 bg-surface-lowest/60 h-48 flex items-center justify-center">
+        {/* TODO: PostgreSQL 파티셔닝 구조도 (월별 파티션 테이블 구조 및 프루닝 동작 다이어그램) */}
+        <span className="font-space text-[0.65rem] text-on-variant/40 uppercase tracking-widest">
+          [ PostgreSQL 파티셔닝 구조도 ]
+        </span>
+      </div>
+    ),
+    blogUrl: 'https://sangkihan.github.io/posts/postgresql-partitioning/',
+  },
+  {
+    title: 'Kafka 기반 IoT 게이트웨이 아키텍처로 실시간 처리 전환',
+    metric: '17,000 devices',
+    details: [
+      '17,000개 IoT 디바이스의 5분 간격 데이터를 처리하던 Azure Function App을 Kafka로 대체',
+      '5개 파티션 / 5개 컨슈머 구성으로 17,000건 메시지를 5.59초 내 처리 달성',
+      'rowKey를 MongoDB _id로 사용한 idempotent upsert 구현으로 중복 메시지 처리 보장',
+      'KRaft 모드(ZooKeeper 없는 Kafka)로 운영 복잡도 감소, 배치 처리 방식에서 실시간 스트리밍으로 전환',
+    ],
+    diagram: (
+      <div className="bg-surface-lowest rounded-2xl p-8 border border-primary/10 overflow-x-auto mt-4">
+        {/* Kafka IoT 게이트웨이 아키텍처 다이어그램 */}
+        <div className="flex items-center gap-8 min-w-max">
+          <ServiceGroup title="External" count={1} label="IoT x17k" isExternal={true} />
+          <div className="flex flex-col items-center gap-1 opacity-30">
+            <div className="w-10 h-px bg-primary border-t border-dashed border-primary" />
+            <span className="text-[6px] font-space font-bold uppercase tracking-widest">MQTT</span>
+          </div>
+          <ServiceGroup title="Broker" count={1} label="Kafka" sub="5 Partitions" />
+          <div className="w-8 h-0.5 bg-primary/20 relative">
+            <div className="absolute right-0 -top-[3px] w-2 h-2 border-t-2 border-r-2 border-primary rotate-45" />
+          </div>
+          <div className="flex flex-col gap-3">
+            <ServiceGroup title="Consumer" count={1} label="Worker #1" />
+            <ServiceGroup title="Consumer" count={1} label="Worker #2~5" sub="x4" />
+          </div>
+          <ForkArrow />
+          <ServiceGroup title="Storage" count={1} label="MongoDB" sub="idempotent upsert" />
+          <div className="w-8 h-0.5 bg-primary/20 relative">
+            <div className="absolute right-0 -top-[3px] w-2 h-2 border-t-2 border-r-2 border-primary rotate-45" />
+          </div>
+          <ServiceGroup title="API" count={1} label="Backend" sub="Spring Boot 3" />
+        </div>
+      </div>
+    ),
+    blogUrl: 'https://sangkihan.github.io/posts/kafka-gateway-architecture/',
+  },
+  {
+    title: 'Azure Function App 다운스케일로 월 인프라 비용 37% 절감',
+    metric: '월 140만원 절감',
+    details: [
+      'Azure Function App의 실제 CPU 사용률이 3~5%에 불과함에도 EP3(4 vCPU) 인스턴스 유지 중임을 발견',
+      'EP3 → EP1(1 vCPU)으로 다운스케일 후 동일한 처리 성능 유지 확인',
+      '월 약 140만원(연 약 1,680만원) 비용 절감, 전체 인프라 비용 대비 37% 절감 효과',
+      '다운스케일 전 부하 테스트를 통해 피크 트래픽 처리 가능 여부 사전 검증',
+    ],
+    blogUrl: 'https://sangkihan.github.io/posts/azure-function-cost-optimization/',
+  },
+  {
+    title: '3.5억 건 데이터 마이그레이션 최적화 (30분 → 2분)',
+    metric: '15x faster',
+    details: [
+      '시간별 집계 데이터를 5분 단위 데이터로 마이그레이션하는 작업, 약 3.5억 건 규모',
+      '단순 순차 처리 기준 시간당 배치 30분 소요 → 청킹(10,000건 단위) + 병렬 스트림 처리로 2분 단축',
+      'ThreadPoolExecutor 기반 비동기 처리 및 MongoDB 비동기 insertMany로 I/O 대기 시간 최소화',
+      '청킹으로 메모리 OOM 방지, 비동기 처리로 CPU 유휴시간 제거해 5배(청킹)×3배(비동기) 복합 향상',
+    ],
+    blogUrl: 'https://sangkihan.github.io/posts/db-migration/',
+  },
+  {
+    title: 'Kafka + Prometheus + Grafana 모니터링 스택 구축',
+    details: [
+      'Java Agent 방식의 JMX Exporter 도입(가장 안정적)으로 Kafka 브로커 메트릭 수집',
+      'kafka-exporter로 Consumer Lag 실시간 추적, 컨슈머 그룹별 처리 지연 시각화',
+      'JVM 힙 메모리 80% 임계값 초과 시 5분 대기 후 Slack 알림 발송 (jvm_gc_live_data_size_bytes 기준)',
+      'Prometheus HA 구성 및 Grafana 대시보드로 브로커 처리량, 파티션 오프셋, 컨슈머 Lag 통합 모니터링',
+    ],
+    blogUrl: 'https://sangkihan.github.io/posts/kafka-grafana-monitoring/',
+  },
+];
