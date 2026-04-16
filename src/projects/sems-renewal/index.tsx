@@ -3,6 +3,7 @@ import archWhite from '../../assets/renewal-sems/리뉴얼 SEMS 아키텍처_whi
 import archDark from '../../assets/renewal-sems/리뉴얼 SEMS 아키텍처_dark.png';
 import { Card } from '../../components/shared/Card';
 import { ImprovementItem } from '../../components/shared/ImprovementItem';
+import { ZoomImage } from '../../components/shared/ZoomImage';
 import { meta, improvements } from './data';
 
 const ArchitectureSection = () => {
@@ -28,8 +29,8 @@ const ArchitectureSection = () => {
 
       <div className={`overflow-hidden transition-all duration-500 ${open ? 'max-h-[2000px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
         <div className="rounded-2xl border border-outline-variant/10 overflow-hidden">
-          <img src={archWhite} alt="리뉴얼 SEMS 아키텍처" className="w-full h-auto block dark:hidden" />
-          <img src={archDark} alt="리뉴얼 SEMS 아키텍처" className="w-full h-auto hidden dark:block" />
+          <ZoomImage src={archWhite} alt="리뉴얼 SEMS 아키텍처" className="w-full h-auto block dark:hidden" />
+          <ZoomImage src={archDark} alt="리뉴얼 SEMS 아키텍처" className="w-full h-auto hidden dark:block" />
         </div>
       </div>
     </div>

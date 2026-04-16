@@ -3,6 +3,7 @@ import asIsWhite from '../../assets/renewal-sems/as_is_datapipeline_white.png';
 import asIsDark from '../../assets/renewal-sems/as_is_datapipeline_dark.png';
 import toBeWhite from '../../assets/renewal-sems/to_be_datapipeline_white.png';
 import toBeDark from '../../assets/renewal-sems/to_be_datapipeline_dark.png';
+import { ZoomImage } from '../../components/shared/ZoomImage';
 
 export const meta: ProjectMeta = {
   title: '리뉴얼 SEMS (GS25 편의점 관제 시스템)',
@@ -15,14 +16,32 @@ export const meta: ProjectMeta = {
 
 export const improvements: Improvement[] = [
   {
-    title: 'PostgreSQL 파티셔닝으로 날씨 예보 데이터 쿼리 13.6배 향상',
-    metric: '13.6x faster',
+    title: 'PostgreSQL 파티셔닝으로 날씨 예보 데이터 쿼리 11배 향상',
+    metric: '11x faster',
     details: [
       '600만 건 규모의 날씨 예보 테이블에 report_dttm 기준 월별 Range Partitioning 적용',
       '파티션 프루닝(Partition Pruning)으로 쿼리 시 불필요한 파티션 스캔 완전 제거',
       'pg_partman 확장 모듈로 매월 자동 파티션 생성 및 6개월 이상 오래된 파티션 자동 삭제',
-      '쿼리 응답시간 12,857ms → 945ms (13.6배 향상), 각 파티션에 독립 인덱스 생성으로 추가 최적화',
+      '쿼리 응답시간 10s → 900ms (약 11배 향상), 각 파티션에 독립 인덱스 생성으로 추가 최적화',
     ],
+    diagram: (
+      <div className="mt-4 rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+        <div className="px-5 py-4">
+          <div className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50 mb-3">파티셔닝 적용 전후 쿼리 응답시간 비교 — 600만 건 날씨 예보 테이블</div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-lg border border-outline-variant/20 bg-surface-low/50 px-4 py-3">
+              <div className="font-space text-[0.6rem] uppercase tracking-widest text-on-variant/50 mb-1">파티셔닝 없음</div>
+              <div className="font-manrope font-extrabold text-2xl text-on-surface tabular-nums">10 <span className="text-sm font-space font-bold text-on-variant/50">s</span></div>
+            </div>
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 relative overflow-hidden">
+              <div className="font-space text-[0.6rem] uppercase tracking-widest text-primary/70 mb-1">Range Partitioning</div>
+              <div className="font-manrope font-extrabold text-2xl text-primary tabular-nums">900 <span className="text-sm font-space font-bold text-primary/50">ms</span></div>
+              <span className="absolute top-2 right-2 bg-primary text-primary-on font-space font-bold text-[0.55rem] px-2 py-0.5 rounded-full uppercase tracking-wider">11x faster</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
     blogUrl: 'https://sangkihan.github.io/posts/postgresql-partitioning/',
   },
   {
@@ -44,8 +63,8 @@ export const improvements: Improvement[] = [
             <span className="font-space text-[0.6rem] text-on-surface">Function App 오류 시 데이터 유실 · 5분 배치 시간차 · 오류 시 사용자 불편</span>
           </div>
           <div className="bg-surface-lowest">
-            <img src={asIsWhite} alt="AS-IS 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
-            <img src={asIsDark} alt="AS-IS 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
+            <ZoomImage src={asIsWhite} alt="AS-IS 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
+            <ZoomImage src={asIsDark} alt="AS-IS 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
           </div>
         </div>
         {/* TO-BE */}
@@ -55,8 +74,8 @@ export const improvements: Improvement[] = [
             <span className="font-space text-[0.6rem] text-on-surface">Kafka 기반 실시간 스트리밍 · 재처리 보장 · 데이터 유실 없음</span>
           </div>
           <div className="bg-surface-lowest">
-            <img src={toBeWhite} alt="TO-BE 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
-            <img src={toBeDark} alt="TO-BE 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
+            <ZoomImage src={toBeWhite} alt="TO-BE 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
+            <ZoomImage src={toBeDark} alt="TO-BE 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
           </div>
         </div>
       </div>
@@ -75,21 +94,177 @@ export const improvements: Improvement[] = [
     blogUrl: 'https://sangkihan.github.io/posts/azure-function-cost-optimization/',
   },
   {
-    title: '3.5억 건 데이터 마이그레이션 최적화 (30분 → 2분)',
+    title: '30억 건 데이터 마이그레이션 최적화 — 하루치 배치 30분 → 2분',
     metric: '15x faster',
     details: [
-      '시간별 집계 데이터를 5분 단위 데이터로 마이그레이션하는 작업, 약 3.5억 건 규모',
-      '단순 순차 처리 기준 시간당 배치 30분 소요 → 청킹(10,000건 단위) + 병렬 스트림 처리로 2분 단축',
+      '점포 5분 단위 전력·온도 데이터 약 30억 건을 MySQL에서 MongoDB로 이관',
+      '하루치 데이터 기준 단순 순차 처리 30분 소요 → 청킹(10,000건 단위) + 병렬 스트림 처리로 2분 단축',
       'ThreadPoolExecutor 기반 비동기 처리 및 MongoDB 비동기 insertMany로 I/O 대기 시간 최소화',
       '청킹으로 메모리 OOM 방지, 비동기 처리로 CPU 유휴시간 제거해 5배(청킹)×3배(비동기) 복합 향상',
     ],
+    diagram: (
+      <div className="mt-4 rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+        <div className="px-5 py-4">
+          <div className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50 mb-3">배치 처리 시간 비교 — 하루치 데이터 기준 / 전체 30억 건 이관</div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-lg border border-outline-variant/20 bg-surface-low/50 px-4 py-3">
+              <div className="font-space text-[0.6rem] uppercase tracking-widest text-on-variant/50 mb-1">순차 처리</div>
+              <div className="font-manrope font-extrabold text-2xl text-on-surface tabular-nums">30 <span className="text-sm font-space font-bold text-on-variant/50">min</span></div>
+            </div>
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 relative overflow-hidden">
+              <div className="font-space text-[0.6rem] uppercase tracking-widest text-primary/70 mb-1">청킹 + 병렬 처리</div>
+              <div className="font-manrope font-extrabold text-2xl text-primary tabular-nums">2 <span className="text-sm font-space font-bold text-primary/50">min</span></div>
+              <span className="absolute top-2 right-2 bg-primary text-primary-on font-space font-bold text-[0.55rem] px-2 py-0.5 rounded-full uppercase tracking-wider">15x faster</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
     blogUrl: 'https://sangkihan.github.io/posts/db-migration/',
+  },
+  {
+    title: 'MySQL → MongoDB 이관으로 5분 단위 데이터 조회 API 40배 개선',
+    metric: '40x faster',
+    details: [
+      'th_str_chn_elec_use_base · th_str_rems_device_base · th_str_sensor_base 3개 테이블에 분산 저장되던 기기별 전력·온도 데이터를 하나의 Document로 통합',
+      'Collection 명을 YYYYMMDD 날짜 단위로 구성해 하루치 데이터를 Collection 단위로 분리, 조회 범위 최소화',
+      '조회 API 응답시간 8s → 200ms (약 40배 향상)',
+    ],
+    diagram: (
+      <div className="mt-4 space-y-3">
+        {/* Schema Migration Visual */}
+        <div className="rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/10">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">스키마 재설계 — 3개 MySQL 테이블 → YYYYMMDD Collection</span>
+          </div>
+          <div className="px-6 py-5 overflow-x-auto">
+            <div className="flex items-center min-w-max">
+              {/* MySQL Tables */}
+              <div className="flex flex-col gap-2">
+                {([
+                  { name: 'th_str_chn_elec_use_base', desc: '전력 사용량' },
+                  { name: 'th_str_rems_device_base',  desc: '기기 상태' },
+                  { name: 'th_str_sensor_base',        desc: '센서·온도' },
+                ] as { name: string; desc: string }[]).map(({ name, desc }) => (
+                  <div key={name} className="rounded-lg border border-outline-variant/30 bg-surface-low px-3 py-2 w-52">
+                    <div className="font-space font-bold text-[0.55rem] text-on-surface leading-tight">{name}</div>
+                    <div className="font-space text-[0.45rem] text-on-variant/50 mt-0.5">{desc}</div>
+                  </div>
+                ))}
+              </div>
+              {/* Bracket + Arrow connector */}
+              <div className="flex" style={{ alignSelf: 'stretch' }}>
+                <div className="flex flex-col w-5" style={{ alignSelf: 'stretch' }}>
+                  <div className="flex-1 border-t-2 border-r-2 border-primary/40 rounded-tr-xl" />
+                  <div className="flex-1 border-b-2 border-r-2 border-primary/40 rounded-br-xl" />
+                </div>
+                <div className="flex items-center">
+                  <div className="w-5 h-0.5 bg-primary/50" />
+                  <div className="w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[5px] border-l-primary/60" />
+                </div>
+              </div>
+              {/* MongoDB Collection */}
+              <div className="rounded-xl border border-primary/40 bg-primary/5 overflow-hidden">
+                <div className="px-4 py-1.5 bg-primary/10 border-b border-primary/20 flex items-center gap-2">
+                  <span className="font-space font-bold text-[0.55rem] text-primary/80 uppercase tracking-widest">MongoDB</span>
+                  <span className="font-space text-[0.5rem] text-primary/50">Collection: YYYYMMDD</span>
+                </div>
+                <div className="px-4 py-3">
+                  <div className="rounded-lg border border-primary/20 bg-surface-lowest/50 px-3 py-2.5">
+                    <div className="font-space font-bold text-[0.5rem] text-primary/60 uppercase tracking-widest mb-2">Document (1개)</div>
+                    <div className="space-y-1.5">
+                      {([
+                        { label: '전력 사용량', src: 'chn_elec_use' },
+                        { label: '기기 상태',  src: 'rems_device'  },
+                        { label: '센서·온도', src: 'sensor'        },
+                      ] as { label: string; src: string }[]).map(({ label, src }) => (
+                        <div key={src} className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary/50 shrink-0" />
+                          <span className="font-space font-bold text-[0.5rem] text-primary/70">{label}</span>
+                          <span className="font-space text-[0.45rem] text-primary/40">← th_str_{src}_base</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Document 구조 예시 */}
+        <details className="rounded-xl border border-outline-variant/15 overflow-hidden">
+          <summary className="px-4 py-2.5 bg-surface-low border-b border-outline-variant/10 cursor-pointer select-none flex items-center justify-between list-none">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/60">Document 구조 예시 — 3개 테이블 통합 결과</span>
+            <svg className="w-3.5 h-3.5 text-on-variant/40 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div className="bg-surface-lowest overflow-x-auto">
+            <pre className="px-5 py-4 font-space text-[0.6rem] text-on-variant/70 leading-relaxed">{`{
+  "_id": { "$oid": "507f1f77bcf86cd799439011" },
+  "PartitionKey": "20260416T0000",
+  "RowKey": "10001_20260416T000313_a1b2c3d4",
+  "payload": {
+    "gateway_id": "10001",
+    "site_id": "GS5010001",
+    "report_datetime": "2026-04-16T00:00:00.000Z",
+    "report_info_list": [
+      {
+        "device_id": "04003",
+        "facility_code": "PWR_MAIN",
+        "properties": {
+          "power_use_accum":     { "value": 358174581, "status": 1 },
+          "power_use_current":   { "value": 4638,      "status": 1 },
+          "power_5min_use_accum":{ "value": 365,       "status": 1 }
+        }
+      },
+      {
+        "device_id": "1B2",
+        "facility_code": "CL_WIC",
+        "properties": {
+          "device_temp": { "value": 750, "status": 1 }
+        }
+      }
+    ],
+    "device_values": {
+      "power_usage":    { "main": 358174581, "hvac": 44051383, "sign": 1 },
+      "power_5min_usage":{ "main": 365, "hvac": 0, "sign": 0 },
+      "device_temp": {
+        "CL_WIC":    { "min": 750,   "max": 750   },
+        "FRZ_RIF":   { "min": -1790, "max": -1790 }
+      }
+    }
+  },
+  "message_datetime": "2026-04-16T00:03:13.018Z"
+}`}</pre>
+          </div>
+        </details>
+        {/* Speed comparison */}
+        <div className="rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+          <div className="px-5 py-4">
+            <div className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50 mb-3">5분 단위 전력·온도 데이터 조회 API 응답시간 비교</div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg border border-outline-variant/20 bg-surface-low/50 px-4 py-3">
+                <div className="font-space text-[0.6rem] uppercase tracking-widest text-on-variant/50 mb-1">MySQL</div>
+                <div className="font-manrope font-extrabold text-2xl text-on-surface tabular-nums">8 <span className="text-sm font-space font-bold text-on-variant/50">s</span></div>
+              </div>
+              <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 relative overflow-hidden">
+                <div className="font-space text-[0.6rem] uppercase tracking-widest text-primary/70 mb-1">MongoDB</div>
+                <div className="font-manrope font-extrabold text-2xl text-primary tabular-nums">200 <span className="text-sm font-space font-bold text-primary/50">ms</span></div>
+                <span className="absolute top-2 right-2 bg-primary text-primary-on font-space font-bold text-[0.55rem] px-2 py-0.5 rounded-full uppercase tracking-wider">40x faster</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
   },
   {
     title: 'Prometheus + Grafana 서버 VM 모니터링 구축',
     details: [
       'Node Exporter로 Azure VM 리소스(CPU, 메모리, 디스크, 네트워크) 메트릭 수집',
       'JVM 힙 메모리 80% 임계값 초과 시 5분 대기 후 Slack 알림 발송 (jvm_gc_live_data_size_bytes 기준)',
+      'Azure Load Balancer Health Probe와 연동하여 각 VM 상태를 실시간 모니터링, 비정상 노드를 자동으로 트래픽 대상에서 제외',
       'Prometheus HA 구성으로 모니터링 단일 장애점 제거, Grafana 대시보드로 서버 상태 통합 시각화',
     ],
     blogUrl: 'https://sangkihan.github.io/posts/prometheus-grafana-monitoring/',

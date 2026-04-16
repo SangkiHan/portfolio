@@ -8,7 +8,7 @@ interface CardProps {
 }
 
 export const Card = ({ meta, children, architectureSlot }: CardProps) => (
-  <div className="bg-surface-low rounded-3xl p-10 border border-outline-variant/10 shadow-sm overflow-hidden">
+  <div className="bg-surface-low rounded-3xl p-6 sm:p-10 border border-outline-variant/10 shadow-sm overflow-hidden">
     <div className="mb-8">
       <div className="flex items-center gap-3 mb-3">
         <span className="font-space font-bold text-[0.6rem] text-primary uppercase tracking-[0.3em]">
@@ -24,8 +24,8 @@ export const Card = ({ meta, children, architectureSlot }: CardProps) => (
           </span>
         ) : null}
       </div>
-      <div className="flex items-center gap-3 mb-5">
-        <h4 className="text-4xl font-manrope font-extrabold tracking-tightest uppercase">
+      <div className="flex flex-wrap items-center gap-3 mb-5">
+        <h4 className="text-2xl sm:text-4xl font-manrope font-extrabold tracking-tightest uppercase">
           {meta.title}
         </h4>
         {meta.links && meta.links.length > 0 && (

@@ -11,6 +11,14 @@ export const meta: ProjectMeta = {
 
 export const improvements: Improvement[] = [
   {
+    title: '재직·퇴직·휴직 상태 및 계약 서류 도메인 테이블 직접 설계',
+    details: [
+      '근로자의 재직·퇴직·휴직 상태 이력과 계약 서류(근로계약서 등) 관리를 위한 핵심 테이블을 처음부터 직접 설계',
+      '정규화 원칙을 적용해 중복 데이터를 최소화하고, 도메인 간 참조 무결성을 FK 제약으로 명시',
+      '재직 상태 변경 이력은 별도 이력 테이블로 분리해 과거 시점 조회 및 감사 로그 요건 충족',
+    ],
+  },
+  {
     title: 'ControllerAdvice 전역 예외처리 도입으로 중복 코드 90% 감소',
     metric: '중복 코드 90% 감소',
     details: [
@@ -23,7 +31,9 @@ export const improvements: Improvement[] = [
     title: 'FileInputStream 미반납으로 인한 메모리 누수 수정',
     metric: '힙 90% 감소',
     details: [
-      '파일 처리 로직에서 FileInputStream을 명시적으로 close하지 않아 힙 메모리가 지속 증가하는 문제 발견',
+      '서버 재시작 없이 힙 메모리가 지속 증가하는 현상 발생 → jmap -histo로 힙덤프를 분석해 원인 클래스 특정',
+      '힙덤프 상위 점유 클래스: FileInputStream · FileDescriptor · byte[] — 파일 처리 로직에서 FileInputStream을 명시적으로 close하지 않아 GC되지 않고 누적됨을 확인',
+      'FileDescriptor는 FileInputStream 1개당 OS fd(file descriptor)를 점유하므로 힙 누수에 더해 OS 레벨 "Too many open files" 에러로 이어질 수 있는 상태였음',
       'try-with-resources 패턴으로 전환해 스트림 자동 반납 보장, GC 후 힙 사용량 90% 감소',
       '동일 패턴의 다른 파일 처리 코드 전수 검토 및 일괄 수정으로 잠재적 누수 선제 제거',
     ],

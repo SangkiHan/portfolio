@@ -19,6 +19,7 @@ export const improvements: Improvement[] = [
     details: [
       '기존 Spring Batch on EC2 방식의 푸시 알림 배치를 AWS EventBridge + Lambda Serverless 아키텍처로 전환',
       '배치 실행에 전용 EC2 인스턴스가 필요하던 구조 제거, Lambda 실행 시간만큼만 과금되는 구조로 전환',
+      '5분마다 푸시 발송하는 서비스 특성상 월 약 8,640회 실행 — Lambda 월 100만 건 · EventBridge 월 1,400만 건 무료 티어로 실질 비용 $0 운영',
       '서버 프로비저닝·관리 오버헤드 제거 및 스케일링 자동화, 월 EC2 비용 대비 100% 절감',
     ],
     diagram: (

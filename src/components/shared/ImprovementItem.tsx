@@ -11,21 +11,28 @@ export const ImprovementItem = ({ improvement, index, isOpen, onToggle }: Improv
   <div>
     <button
       onClick={onToggle}
-      className="w-full flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-surface-lowest/50 rounded-xl transition-colors text-left"
+      className="w-full flex items-start gap-3 px-4 sm:px-6 py-4 cursor-pointer hover:bg-surface-lowest/50 rounded-xl transition-colors text-left"
     >
-      <span className="font-space font-bold text-[0.6rem] text-primary/40 w-5 shrink-0 tabular-nums">
+      <span className="font-space font-bold text-[0.6rem] text-primary/40 w-5 shrink-0 tabular-nums mt-0.5">
         {String(index + 1).padStart(2, '0')}
       </span>
-      <span className="font-manrope font-semibold text-base text-on-surface flex-1">
-        {improvement.title}
-      </span>
+      <div className="flex-1 min-w-0">
+        <span className="font-manrope font-semibold text-sm sm:text-base text-on-surface leading-snug">
+          {improvement.title}
+        </span>
+        {improvement.metric && (
+          <span className="mt-1.5 flex sm:hidden w-fit bg-primary/10 text-primary font-space font-bold text-[0.55rem] px-2 py-0.5 rounded-full uppercase tracking-wider">
+            {improvement.metric}
+          </span>
+        )}
+      </div>
       {improvement.metric && (
-        <span className="bg-primary/10 text-primary font-space font-bold text-[0.6rem] px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0">
+        <span className="hidden sm:block bg-primary/10 text-primary font-space font-bold text-[0.6rem] px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0">
           {improvement.metric}
         </span>
       )}
       <svg
-        className={`w-4 h-4 text-primary/40 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+        className={`w-4 h-4 text-primary/40 shrink-0 transition-transform duration-300 mt-0.5 ${isOpen ? 'rotate-180' : ''}`}
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
