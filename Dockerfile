@@ -4,6 +4,6 @@ COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-RUN npm install -g pm2
+RUN npm install -g serve
 EXPOSE 5173
-CMD ["pm2-runtime", "serve", "dist", "5173", "--spa"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
