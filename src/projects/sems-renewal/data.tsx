@@ -7,6 +7,7 @@ import { ZoomImage } from '../../components/shared/ZoomImage';
 
 export const meta: ProjectMeta = {
   title: '리뉴얼 SEMS (GS25 편의점 관제 시스템)',
+  description: '기존 SEMS의 앱과 웹을 Azure 환경으로 이전하고 프로젝트 구조를 전면 개선한 프로젝트입니다. GS25·GSFRESH 점포의 냉장비, 냉난방, 간판, 조명 전력량을 주기적으로 수집·관제합니다.',
   role: 'Backend Developer',
   period: '2025.05 ~ 현재',
   org: '티앤엠테크',

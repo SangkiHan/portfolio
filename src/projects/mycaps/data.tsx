@@ -2,6 +2,7 @@ import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
   title: 'SK쉴더스 마이캡스',
+  description: 'SK쉴더스의 보안 상품을 가입한 고객들을 대상으로 보안 관리를 지원하는 앱입니다. OAuth2.0 기반 통합 인증 연동 및 토큰 재발급 성능 개선 등 서버 유지보수를 담당했습니다.',
   role: 'Backend Developer',
   period: '2023.04 ~ 2024.03',
   org: '모빌씨앤씨',

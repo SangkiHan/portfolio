@@ -2,6 +2,7 @@ import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
   title: 'PuppyNote',
+  description: '반려동물의 건강기록, 산책, 급식, 용품 등을 관리하고 가족 구성원과 공유할 수 있는 반려동물 케어 플랫폼입니다. 서버·앱 풀스택으로 직접 개발하여 App Store에 출시한 개인 프로젝트입니다.',
   role: 'Full Stack Developer',
   period: '2026.01 ~ 현재',
   type: 'study',

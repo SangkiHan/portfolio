@@ -10,7 +10,7 @@ interface CardProps {
 export const Card = ({ meta, children, architectureSlot }: CardProps) => (
   <div className="bg-surface-low rounded-3xl p-6 sm:p-10 border border-outline-variant/10 shadow-sm overflow-hidden">
     <div className="mb-8">
-      <div className="flex items-center gap-3 mb-3">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
         <span className="font-space font-bold text-[0.6rem] text-primary uppercase tracking-[0.3em]">
           {meta.role} / {meta.period}
         </span>
@@ -56,6 +56,11 @@ export const Card = ({ meta, children, architectureSlot }: CardProps) => (
           </div>
         )}
       </div>
+      {meta.description && (
+        <p className="text-sm text-on-variant leading-relaxed mb-5">
+          {meta.description}
+        </p>
+      )}
       <div className="flex flex-wrap gap-2">
         {meta.tech.map((t) => (
           <span key={t} className="tech-tag">{t}</span>

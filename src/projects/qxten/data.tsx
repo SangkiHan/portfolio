@@ -2,6 +2,7 @@ import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
   title: '큐텐 웹 서비스',
+  description: '큐텐·티몬·위메프·인터파크의 화면·매출·상품 통계 데이터를 제공하는 Analytics 웹과, 사원들의 기안서·휴가·공지사항을 처리하는 사내 그룹웨어를 유지보수한 프로젝트입니다.',
   role: 'Backend Developer',
   period: '2024.05 ~ 2024.10',
   org: '큐텐테크놀로지',

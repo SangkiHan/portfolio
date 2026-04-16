@@ -10,6 +10,7 @@ export interface Improvement {
 
 export interface ProjectMeta {
   title: string;
+  description?: string;
   role: string;
   period: string;
   org?: string;

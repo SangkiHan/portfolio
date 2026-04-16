@@ -2,6 +2,7 @@ import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
   title: 'Luckkids',
+  description: '행운을 얻는 습관들을 관리하고 실천하며 행운 캐릭터를 성장시키는 앱입니다. 스터디그룹을 꾸려 기획부터 개발·운영까지 직접 진행하며 약 800명의 사용자가 이용 중인 서비스입니다.',
   role: 'Backend Developer',
   period: '2023.10 ~ 현재',
   type: 'study',

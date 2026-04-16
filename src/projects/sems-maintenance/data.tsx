@@ -2,6 +2,7 @@ import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
   title: '레거시 SEMS 유지보수 (GS25 편의점 관제 시스템)',
+  description: 'GS25 편의점과 GSFRESH 슈퍼의 냉장비, 냉난방, 간판, 조명 전력량을 체크하고 상태를 확인·관리할 수 있는 서비스입니다. 레거시 코드베이스의 안정적인 운영과 메모리 누수 등 운영 이슈를 해결했습니다.',
   role: 'Junior Developer',
   period: '2025.05 ~ 2025.12',
   org: '티앤엠테크',

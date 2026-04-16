@@ -2,6 +2,7 @@ import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
   title: 'PLANIN',
+  description: '캡스텍 현장 직원들이 근로계약서·서약서 등 서류를 직접 방문 없이 웹·모바일로 수신·서명·제출할 수 있도록 업무 프로세스를 개선한 현장인력 서류 관리 웹서비스입니다.',
   role: 'Backend Developer',
   period: '2022.06 ~ 2024.03',
   org: '모빌씨앤씨',
