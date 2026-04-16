@@ -22,11 +22,91 @@ export const improvements: Improvement[] = [
       '서버 프로비저닝·관리 오버헤드 제거 및 스케일링 자동화, 월 EC2 비용 대비 100% 절감',
     ],
     diagram: (
-      <div className="mt-4 rounded-xl border border-dashed border-outline-variant/30 bg-surface-lowest/60 h-40 flex items-center justify-center">
-        {/* TODO: EventBridge + Lambda 푸시 알림 아키텍처 다이어그램 */}
-        <span className="font-space text-[0.65rem] text-on-variant/40 uppercase tracking-widest">
-          [ EventBridge → Lambda → Push Notification 아키텍처 ]
-        </span>
+      <div className="mt-4 flex flex-col gap-3">
+        {/* AS-IS */}
+        <div className="rounded-xl border border-outline-variant/20 overflow-hidden">
+          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/20 flex items-center gap-2">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">AS-IS</span>
+            <span className="font-space text-[0.6rem] text-on-surface">Spring Batch on VM — 전용 서버 상시 운영 필요</span>
+          </div>
+          <div className="bg-surface-lowest px-5 py-4 overflow-x-auto">
+            <div className="flex items-center gap-2 min-w-max">
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-tight text-on-surface leading-tight">Spring Batch<br/><span className="text-on-variant/50">(VM 상시 가동)</span></span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">Cron Scheduler</span>
+              </div>
+              <div className="flex items-center opacity-40">
+                <div className="w-8 h-px bg-on-variant/50" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-on-variant/50" />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-tight text-on-surface leading-tight">Google<br/>Firebase FCM</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">Push 발송</span>
+              </div>
+              <div className="flex items-center opacity-40">
+                <div className="w-8 h-px bg-on-variant/50" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-on-variant/50" />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-16 h-10 rounded-lg border border-outline-variant/30 bg-surface-low flex items-center justify-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-wider text-on-surface">User</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-on-variant/40 uppercase">수신</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* TO-BE */}
+        <div className="rounded-xl border border-primary/20 overflow-hidden">
+          <div className="px-4 py-2 bg-primary/5 border-b border-primary/10 flex items-center gap-2">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-primary/70">TO-BE</span>
+            <span className="font-space text-[0.6rem] text-on-surface">EventBridge + Lambda Serverless — 실행 시간만 과금</span>
+          </div>
+          <div className="bg-surface-lowest px-5 py-4 overflow-x-auto">
+            <div className="flex items-center gap-2 min-w-max">
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-tight text-primary leading-tight">AWS<br/>EventBridge</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-primary/60 uppercase">주기적 호출</span>
+              </div>
+              <div className="flex items-center opacity-60">
+                <div className="w-8 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary" />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-tight text-primary leading-tight">AWS Lambda<br/><span className="text-primary/50">(Serverless)</span></span>
+                </div>
+                <span className="font-space text-[0.5rem] text-primary/60 uppercase">실행 시간만 과금</span>
+              </div>
+              <div className="flex items-center opacity-60">
+                <div className="w-8 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary" />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-28 h-10 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center px-1 text-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-tight text-primary leading-tight">Google<br/>Firebase FCM</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-primary/60 uppercase">Push 발송</span>
+              </div>
+              <div className="flex items-center opacity-60">
+                <div className="w-8 h-px bg-primary" />
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-primary" />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-16 h-10 rounded-lg border border-primary/30 bg-primary/5 flex items-center justify-center">
+                  <span className="font-space font-bold text-[0.55rem] uppercase tracking-wider text-primary">User</span>
+                </div>
+                <span className="font-space text-[0.5rem] text-primary/60 uppercase">수신</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     ),
   },
