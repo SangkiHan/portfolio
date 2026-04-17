@@ -51,15 +51,15 @@ const App = () => {
         </button>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-32 space-y-24">
+      <main className="max-w-4xl mx-auto px-4 md:px-6 pt-32 pb-32 space-y-24">
 
         {/* Hero */}
         <section>
           <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-4">Backend Developer · 4년차</p>
-          <h2 className="text-4xl sm:text-5xl font-manrope font-extrabold tracking-tightest leading-tight mb-6">
+          <h2 className="text-4xl md:text-5xl font-manrope font-extrabold tracking-tightest leading-tight mb-6">
             검증을 좋아하는 개발자 한상기입니다.
           </h2>
-          <div className="space-y-3 mb-8 max-w-2xl text-sm sm:text-base text-on-surface/70 leading-relaxed">
+          <div className="space-y-3 mb-8 max-w-2xl text-sm md:text-base text-on-surface/70 leading-relaxed">
             <p>
               티앤엠테크에서 GS25·GSFRESH 점포관리 시스템(SEMS)의 신규 개발과 성능 개선을 담당하고 있습니다.
             </p>
@@ -80,8 +80,8 @@ const App = () => {
               <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span className="hidden sm:inline">tkdrl8908@naver.com</span>
-              <span className="sm:hidden">Email</span>
+              <span className="hidden md:inline">tkdrl8908@naver.com</span>
+              <span className="md:hidden">Email</span>
             </a>
             <a
               href="https://github.com/SangkiHan"
@@ -106,7 +106,7 @@ const App = () => {
         {/* Skills */}
         <section>
           <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">Tech Stack</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {skills.map((group) => (
               <div key={group.label} className="rounded-2xl border border-outline-variant/10 bg-surface-low p-5">
                 <p className="font-space font-bold text-[0.55rem] uppercase tracking-widest text-on-variant/50 mb-3">{group.label}</p>
@@ -126,10 +126,10 @@ const App = () => {
           <div className="relative">
             <div className="absolute left-0 top-2 bottom-2 w-px bg-outline-variant/20" />
             {careers.map((c) => (
-              <div key={c.company} className="pl-5 sm:pl-8 pb-8 relative">
+              <div key={c.company} className="pl-5 md:pl-8 pb-8 relative">
                 <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-primary" />
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
-                  <span className="font-manrope font-extrabold text-base sm:text-lg">{c.company}</span>
+                <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-1">
+                  <span className="font-manrope font-extrabold text-base md:text-lg">{c.company}</span>
                   <span className="font-space text-[0.55rem] uppercase tracking-widest text-primary/70">{c.role}</span>
                 </div>
                 <p className="font-space text-[0.55rem] uppercase tracking-widest text-on-variant/40 mb-2">{c.period}</p>
@@ -154,14 +154,14 @@ const App = () => {
         {/* Education */}
         <section>
           <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">Education</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {educations.map((edu) => (
               <a
                 key={edu.title}
                 href={edu.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl border border-outline-variant/10 bg-surface-low p-4 sm:p-5 flex flex-col gap-3 hover:border-primary/30 hover:bg-surface-lowest transition-all group"
+                className="rounded-2xl border border-outline-variant/10 bg-surface-low p-4 md:p-5 flex flex-col gap-3 hover:border-primary/30 hover:bg-surface-lowest transition-all group"
               >
                 <div className="flex-1">
                   <p className="font-space font-bold text-[0.55rem] uppercase tracking-widest text-primary/70 mb-1">{edu.org}</p>
