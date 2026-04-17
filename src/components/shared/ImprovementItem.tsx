@@ -11,7 +11,7 @@ export const ImprovementItem = ({ improvement, index, isOpen, onToggle }: Improv
   <div>
     <button
       onClick={onToggle}
-      className="w-full flex items-start gap-3 px-4 sm:px-6 py-4 cursor-pointer hover:bg-surface-lowest/50 rounded-xl transition-colors text-left"
+      className="w-full flex items-start gap-2 sm:gap-3 px-3 sm:px-6 py-4 cursor-pointer hover:bg-surface-lowest/50 rounded-xl transition-colors text-left"
     >
       <span className="font-space font-bold text-[0.6rem] text-primary/40 w-5 shrink-0 tabular-nums mt-0.5">
         {String(index + 1).padStart(2, '0')}
@@ -43,7 +43,7 @@ export const ImprovementItem = ({ improvement, index, isOpen, onToggle }: Improv
     </button>
 
     <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[1500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-      <div className="px-6 pb-6 pt-2 space-y-2">
+      <div className="px-3 sm:px-6 pb-4 sm:pb-6 pt-2 space-y-2">
         {improvement.details.map((detail, i) => (
           <div key={i} className="flex gap-3 text-sm text-on-variant leading-relaxed">
             <span className="text-primary/40 font-bold mt-0.5 shrink-0">·</span>

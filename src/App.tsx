@@ -51,7 +51,7 @@ const App = () => {
         </button>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-6 pt-32 pb-32 space-y-24">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-32 space-y-24">
 
         {/* Hero */}
         <section>
@@ -126,7 +126,7 @@ const App = () => {
           <div className="relative">
             <div className="absolute left-0 top-2 bottom-2 w-px bg-outline-variant/20" />
             {careers.map((c) => (
-              <div key={c.company} className="pl-6 sm:pl-8 pb-8 relative">
+              <div key={c.company} className="pl-5 sm:pl-8 pb-8 relative">
                 <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-primary" />
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
                   <span className="font-manrope font-extrabold text-base sm:text-lg">{c.company}</span>
