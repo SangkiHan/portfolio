@@ -50,7 +50,7 @@ export const improvements: Improvement[] = [
     metric: '17,000 devices',
     details: [
       '17,000개 IoT 디바이스의 5분 간격 데이터를 처리하던 Azure Function App을 Kafka로 대체',
-      '6개 파티션 / 3개 컨슈머 구성으로 17,000건 메시지 처리',
+      '6개 파티션 / Consumer 그룹당 3개 Concurrency 구성으로 17,000건 메시지 처리',
       'rowKey를 MongoDB _id로 사용한 idempotent upsert 구현으로 중복 메시지 처리 보장',
       'KRaft 모드(ZooKeeper 없는 Kafka)로 운영 복잡도 감소, 배치 처리 방식에서 실시간 스트리밍으로 전환',
       '오류 발생 시 오류 메시지를 별도 Kafka 토픽에 저장해 재처리 및 원인 분석 용이성 확보',
