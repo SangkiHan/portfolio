@@ -33,12 +33,12 @@ export const ZoomImage = ({ src, alt, className }: ZoomImageProps) => {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          className={`fixed inset-0 z-50 flex items-center justify-center ${src.includes('_white') ? 'bg-white' : 'bg-black'}`}
           onClick={close}
         >
           {/* 닫기 버튼 */}
           <button
-            className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-xl transition-colors z-10"
+            className={`absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full text-xl transition-colors z-10 ${src.includes('_white') ? 'bg-black/10 hover:bg-black/20 text-black' : 'bg-white/10 hover:bg-white/20 text-white'}`}
             onClick={close}
           >
             ×

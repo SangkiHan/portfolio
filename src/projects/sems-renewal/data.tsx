@@ -17,6 +17,44 @@ export const meta: ProjectMeta = {
 
 export const improvements: Improvement[] = [
   {
+    title: '데이터 유실 방지를 위한 Kafka 기반 데이터 파이프라인 구축',
+    metric: '17,000 devices',
+    details: [
+      '17,000개 IoT 디바이스의 5분 간격 데이터를 처리하던 Azure Function App을 Kafka로 대체',
+      '6개 파티션 / Consumer 그룹당 3개 Concurrency 구성으로 17,000건 메시지 처리',
+      'rowKey를 MongoDB _id로 사용한 idempotent upsert 구현으로 중복 메시지 처리 보장',
+      'KRaft 모드(ZooKeeper 없는 Kafka)로 운영 복잡도 감소, 배치 처리 방식에서 실시간 스트리밍으로 전환',
+      '오류 발생 시 오류 메시지를 별도 Kafka 토픽에 저장해 재처리 및 원인 분석 용이성 확보',
+    ],
+    diagram: (
+      <div className="mt-4 flex flex-col gap-4">
+        {/* AS-IS */}
+        <div className="rounded-xl border border-outline-variant/20 overflow-hidden">
+          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/20 flex items-center gap-2">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">AS-IS</span>
+            <span className="font-space text-[0.6rem] text-on-surface">Function App 오류 시 데이터 유실 · 5분 배치 시간차 · 오류 시 사용자 불편</span>
+          </div>
+          <div className="bg-surface-lowest">
+            <ZoomImage src={asIsWhite} alt="AS-IS 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
+            <ZoomImage src={asIsDark} alt="AS-IS 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
+          </div>
+        </div>
+        {/* TO-BE */}
+        <div className="rounded-xl border border-primary/20 overflow-hidden">
+          <div className="px-4 py-2 bg-primary/5 border-b border-primary/10 flex items-center gap-2">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-primary/70">TO-BE</span>
+            <span className="font-space text-[0.6rem] text-on-surface">Kafka 기반 실시간 스트리밍 · 재처리 보장 · 데이터 유실 없음</span>
+          </div>
+          <div className="bg-surface-lowest">
+            <ZoomImage src={toBeWhite} alt="TO-BE 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
+            <ZoomImage src={toBeDark} alt="TO-BE 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
+          </div>
+        </div>
+      </div>
+    ),
+    blogUrl: 'https://sangkihan.github.io/posts/kafka-gateway-architecture/',
+  },
+  {
     title: '30억 건 데이터 마이그레이션 최적화 — 하루치 배치 30분 → 2분',
     metric: '15x faster',
     details: [
@@ -210,44 +248,6 @@ export const improvements: Improvement[] = [
       </div>
     ),
     blogUrl: 'https://sangkihan.github.io/posts/postgresql-partitioning/',
-  },
-  {
-    title: '데이터 유실 방지를 위한 Kafka 기반 데이터 파이프라인 구축',
-    metric: '17,000 devices',
-    details: [
-      '17,000개 IoT 디바이스의 5분 간격 데이터를 처리하던 Azure Function App을 Kafka로 대체',
-      '6개 파티션 / Consumer 그룹당 3개 Concurrency 구성으로 17,000건 메시지 처리',
-      'rowKey를 MongoDB _id로 사용한 idempotent upsert 구현으로 중복 메시지 처리 보장',
-      'KRaft 모드(ZooKeeper 없는 Kafka)로 운영 복잡도 감소, 배치 처리 방식에서 실시간 스트리밍으로 전환',
-      '오류 발생 시 오류 메시지를 별도 Kafka 토픽에 저장해 재처리 및 원인 분석 용이성 확보',
-    ],
-    diagram: (
-      <div className="mt-4 flex flex-col gap-4">
-        {/* AS-IS */}
-        <div className="rounded-xl border border-outline-variant/20 overflow-hidden">
-          <div className="px-4 py-2 bg-surface-low border-b border-outline-variant/20 flex items-center gap-2">
-            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">AS-IS</span>
-            <span className="font-space text-[0.6rem] text-on-surface">Function App 오류 시 데이터 유실 · 5분 배치 시간차 · 오류 시 사용자 불편</span>
-          </div>
-          <div className="bg-surface-lowest">
-            <ZoomImage src={asIsWhite} alt="AS-IS 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
-            <ZoomImage src={asIsDark} alt="AS-IS 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
-          </div>
-        </div>
-        {/* TO-BE */}
-        <div className="rounded-xl border border-primary/20 overflow-hidden">
-          <div className="px-4 py-2 bg-primary/5 border-b border-primary/10 flex items-center gap-2">
-            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-primary/70">TO-BE</span>
-            <span className="font-space text-[0.6rem] text-on-surface">Kafka 기반 실시간 스트리밍 · 재처리 보장 · 데이터 유실 없음</span>
-          </div>
-          <div className="bg-surface-lowest">
-            <ZoomImage src={toBeWhite} alt="TO-BE 데이터 파이프라인" className="w-full h-auto block dark:hidden" />
-            <ZoomImage src={toBeDark} alt="TO-BE 데이터 파이프라인" className="w-full h-auto hidden dark:block" />
-          </div>
-        </div>
-      </div>
-    ),
-    blogUrl: 'https://sangkihan.github.io/posts/kafka-gateway-architecture/',
   },
   {
     title: 'Azure Function App 다운스케일로 월 인프라 비용 37% 절감',
