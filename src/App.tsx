@@ -55,7 +55,7 @@ const App = () => {
 
         {/* Hero */}
         <section>
-          <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-4">Backend Developer · 4년차</p>
+          <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-4">Backend Developer · 5년차</p>
           <h2 className="text-4xl md:text-5xl font-manrope font-extrabold tracking-tightest leading-tight mb-6">
             검증을 좋아하는 개발자 한상기입니다.
           </h2>
