@@ -1,4 +1,109 @@
+import { useState } from 'react';
 import type { ProjectMeta, Improvement } from '../types';
+
+const FlowDownArrow = ({ label }: { label?: string }) => (
+  <div className="flex flex-col items-center">
+    <div className="w-px h-3 bg-outline-variant/40" />
+    {label && <span className="font-space text-[0.45rem] text-on-variant/50 my-0.5">{label}</span>}
+    <div className="w-px h-2 bg-outline-variant/40" />
+    <div className="w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[4px] border-t-outline-variant/50" />
+  </div>
+);
+
+const FlowRightArrow = ({ label }: { label: string }) => (
+  <div className="flex items-center">
+    <div className="h-px w-6 bg-outline-variant/40" />
+    <span className="font-space text-[0.4rem] text-on-variant/40 whitespace-nowrap px-1">{label}</span>
+    <div className="h-px w-3 bg-outline-variant/40" />
+    <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[4px] border-l-outline-variant/50" />
+  </div>
+);
+
+const FoodFlowDiagram = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mt-2 rounded-xl border border-outline-variant/20 bg-surface-lowest overflow-hidden">
+      <button
+        onClick={() => setOpen(p => !p)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-low/50 transition-colors"
+      >
+        <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">
+          전체 프로세스 흐름
+        </span>
+        <svg
+          className={`w-3.5 h-3.5 text-on-variant/40 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div className={`overflow-hidden transition-all duration-500 ${open ? 'max-h-[700px]' : 'max-h-0'}`}>
+        <div className="px-6 pb-5 pt-2 overflow-x-auto">
+          <div className="inline-flex flex-col items-center mx-auto">
+
+            {/* 클라이언트 */}
+            <div className="rounded-lg border border-outline-variant/30 bg-surface-low px-5 py-2">
+              <span className="font-space font-bold text-[0.6rem] uppercase tracking-wider text-on-surface">클라이언트</span>
+            </div>
+
+            {/* ↓ POST */}
+            <div className="flex flex-col items-center my-0.5">
+              <div className="w-px h-3 bg-outline-variant/40" />
+              <span className="font-space text-[0.45rem] text-orange-500/80 bg-orange-400/10 border border-orange-400/20 px-2 py-0.5 rounded my-0.5">
+                POST /api/v1/foods/ai
+              </span>
+              <div className="w-px h-3 bg-outline-variant/40" />
+              <div className="w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[4px] border-t-outline-variant/50" />
+            </div>
+
+            {/* DB 중복 확인 + 이미 있음 branch */}
+            <div className="flex items-center">
+              <div className="rounded-lg border border-outline-variant/30 bg-surface-low px-4 py-2">
+                <span className="font-space font-bold text-[0.55rem] text-on-surface whitespace-nowrap">DB 중복 확인</span>
+              </div>
+              <FlowRightArrow label="이미 있음" />
+              <div className="rounded-lg border border-green-500/20 bg-green-500/5 px-3 py-2">
+                <span className="font-space font-bold text-[0.5rem] text-green-600/80 whitespace-nowrap">기존 답변 반환</span>
+              </div>
+            </div>
+
+            {/* ↓ 없음 */}
+            <FlowDownArrow label="없음" />
+
+            {/* Ollama AI + 음식 아님 branch */}
+            <div className="flex items-center">
+              <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-2 text-center">
+                <span className="font-space font-bold text-[0.55rem] text-primary whitespace-nowrap">Ollama AI 호출</span>
+                <div className="font-space text-[0.4rem] text-primary/60">EXAONE 3.5 · Structured Output</div>
+              </div>
+              <FlowRightArrow label="음식 아님" />
+              <div className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2">
+                <span className="font-space font-bold text-[0.5rem] text-red-600/80 whitespace-nowrap">400 에러</span>
+              </div>
+            </div>
+
+            {/* ↓ 음식 맞음 */}
+            <FlowDownArrow label="음식 맞음" />
+
+            {/* DB 저장 */}
+            <div className="rounded-lg border border-outline-variant/30 bg-surface-low px-4 py-2">
+              <span className="font-space font-bold text-[0.55rem] text-on-surface whitespace-nowrap">DB 저장</span>
+            </div>
+
+            <FlowDownArrow />
+
+            {/* 응답 반환 */}
+            <div className="rounded-lg border border-green-500/20 bg-green-500/5 px-5 py-2">
+              <span className="font-space font-bold text-[0.55rem] text-green-600/80 whitespace-nowrap">응답 반환</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const meta: ProjectMeta = {
   title: 'PuppyNote',
@@ -6,7 +111,7 @@ export const meta: ProjectMeta = {
   role: 'Full Stack Developer',
   period: '2026.01 ~ 현재',
   type: 'study',
-  tech: ['Java 17', 'Spring Boot 3', 'MySQL', 'Redis', 'Elasticsearch', 'Logstash', 'AWS S3', 'CloudFront'],
+  tech: ['Java 17', 'Spring Boot 3', 'Spring AI', 'MySQL', 'Redis', 'Elasticsearch', 'Logstash', 'AWS S3', 'CloudFront'],
   links: [
     { label: 'App Store', url: 'https://apps.apple.com/kr/app/puppynote/id6760515755', icon: 'appstore' },
     { label: 'GitHub', url: 'https://github.com/PuppyNote', icon: 'github' },
@@ -14,6 +119,16 @@ export const meta: ProjectMeta = {
 };
 
 export const improvements: Improvement[] = [
+  {
+    title: 'Spring AI + 로컬 LLM으로 반려동물 음식 안전성 분석 서비스 구현',
+    details: [
+      'Spring AI ChatClient와 Ollama(EXAONE 3.5) 연동으로 자체 서버에서 AI 추론 처리, 외부 API 비용 없음',
+      'Structured Output(entity 매핑)으로 AI 응답을 isFood / safetyLevel(GOOD·NOTION·BAD) / answer 구조로 자동 파싱해 파싱 안정성 확보',
+      '동일 질문은 DB에서 즉시 반환하고 미탐색 음식만 AI를 호출하는 캐시 우선 전략으로 불필요한 LLM 호출 최소화',
+    ],
+    diagram: <FoodFlowDiagram />,
+    blogUrl: 'https://sangkihan.github.io/posts/spring-ai-food-search/',
+  },
   {
     title: 'Elasticsearch 도입으로 해시태그 검색 성능 12.8배 향상',
     metric: '12.8x faster',
