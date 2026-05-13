@@ -16,5 +16,5 @@ export interface ProjectMeta {
   org?: string;
   type: 'personal' | 'work' | 'study';
   tech: string[];
-  links?: { label: string; url: string; icon?: 'github' | 'appstore' }[];
+  links?: { label: string; url: string; icon?: 'github' | 'appstore' | 'googleplay' }[];
 }

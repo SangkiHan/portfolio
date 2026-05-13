@@ -113,6 +113,7 @@ export const meta: ProjectMeta = {
   type: 'study',
   tech: ['Java 17', 'Spring Boot 3', 'Spring AI', 'MySQL', 'Redis', 'Elasticsearch', 'Logstash', 'AWS S3', 'CloudFront'],
   links: [
+    { label: 'PlayStore Store', url: 'https://play.google.com/store/apps/details?id=com.puppynote&pcampaignid=web_share', icon: 'googleplay' },
     { label: 'App Store', url: 'https://apps.apple.com/kr/app/puppynote/id6760515755', icon: 'appstore' },
     { label: 'GitHub', url: 'https://github.com/PuppyNote', icon: 'github' },
   ],
