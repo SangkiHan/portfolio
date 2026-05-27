@@ -277,6 +277,6 @@ export const improvements: Improvement[] = [
       'kafka-exporter로 Consumer Lag 실시간 추적, 컨슈머 그룹별 처리 지연 시각화',
       'Grafana 대시보드에서 브로커 처리량·파티션 오프셋·Consumer Lag을 통합 모니터링해 병목 조기 감지',
     ],
-    blogUrl: 'https://sangkihan.github.io/posts/kafka-grafana-monitoring/',
+    blogUrl: 'https://sangkihan.github.io/posts/kafka-grafana-monitoring-setup/',
   },
 ];
