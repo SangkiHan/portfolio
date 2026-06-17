@@ -25,6 +25,105 @@ export const improvements: Improvement[] = [
       'Gemini를 LLM Judge로 활용해 Ollama 수정안을 독립적으로 검증, self-evaluation bias 제거 및 신뢰도 점수를 Slack 알림에 함께 표시',
       'Slack 수락 버튼 클릭 한 번으로 Gemini가 코드 수정 적용 → GitHub PR 자동 생성까지 완전 자동화',
     ],
+    diagram: (
+      <div className="mt-4 space-y-3">
+        {/* 전체 파이프라인 */}
+        <div className="rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+          <div className="px-4 py-2.5 bg-surface-low border-b border-outline-variant/10">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">전체 파이프라인</span>
+          </div>
+          <div className="px-5 py-4">
+            <div className="relative">
+              <div className="absolute left-[1.15rem] top-3 bottom-3 w-px bg-outline-variant/20" />
+              <div className="space-y-0">
+                {([
+                  { label: '서버 에러 발생', sub: 'Spring Boot 등', icon: '⚡' },
+                  { label: 'Webhook 수신', sub: 'FastAPI  POST /api/v1/webhook/error', icon: '↓' },
+                  { label: 'Git fetch', sub: '최신 소스코드 로컬 동기화', icon: '①' },
+                  { label: 'Error Memory 검색', sub: '과거 유사 사례 조회 (ChromaDB)', icon: '②' },
+                  { label: 'ReAct Agent 분석', sub: 'LangGraph + Ollama — grep_files / read_file / list_directory', icon: '③' },
+                  { label: 'LLM Judge', sub: 'Gemini — 수정안 품질 자동 평가', icon: '④' },
+                  { label: 'Slack 알림', sub: '분석 결과 + Judge 점수 + Before/After 코드', icon: '⑤' },
+                  { label: '수락 클릭 → GitHub PR 생성', sub: 'Gemini 파일 수정 적용 → PR 자동 생성', icon: '⑥' },
+                ] as { label: string; sub: string; icon: string }[]).map(({ label, sub, icon }, i) => (
+                  <div key={i} className="flex gap-3 pl-1 pb-3 last:pb-0">
+                    <div className="w-8 flex flex-col items-center shrink-0">
+                      <div className="w-5 h-5 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0 z-10">
+                        <span className="font-space font-bold text-[0.5rem] text-primary">{icon}</span>
+                      </div>
+                    </div>
+                    <div className="pt-0.5 pb-1">
+                      <div className="font-space font-bold text-[0.65rem] text-on-surface">{label}</div>
+                      <div className="font-space text-[0.55rem] text-on-variant/50 mt-0.5">{sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 시스템 구성도 */}
+        <div className="rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+          <div className="px-4 py-2.5 bg-surface-low border-b border-outline-variant/10">
+            <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">시스템 구성도</span>
+          </div>
+          <div className="px-5 py-4 space-y-3">
+            {/* 서버 */}
+            <div className="rounded-lg border border-outline-variant/20 bg-surface-low px-4 py-3">
+              <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40 mb-1">서버 (Spring Boot 등)</div>
+              <div className="font-space text-[0.55rem] text-on-surface">에러 발생 → Webhook POST /api/v1/webhook/error</div>
+            </div>
+            {/* 화살표 */}
+            <div className="flex justify-center">
+              <div className="flex flex-col items-center">
+                <div className="w-px h-4 bg-primary/30" />
+                <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/50" />
+              </div>
+            </div>
+            {/* FastAPI Backend */}
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+              <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-primary/60 mb-3">FastAPI Backend (Python)</div>
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {([
+                  { title: 'Error Memory', sub: 'ChromaDB\n(memory_*)' },
+                  { title: '로컬 레포지토리', sub: 'grep_files\nread_file' },
+                  { title: 'ReAct Agent', sub: 'LangGraph\n+ Ollama' },
+                ] as { title: string; sub: string }[]).map(({ title, sub }) => (
+                  <div key={title} className="rounded-lg border border-primary/15 bg-surface-lowest/60 px-2 py-2.5 text-center">
+                    <div className="font-space font-bold text-[0.5rem] text-on-surface mb-1">{title}</div>
+                    <div className="font-space text-[0.45rem] text-on-variant/50 whitespace-pre-line leading-relaxed">{sub}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-center">
+                <div className="font-space font-bold text-[0.55rem] text-primary">LLM Judge (Gemini) · 파일 수정 (Gemini)</div>
+              </div>
+            </div>
+            {/* 화살표 */}
+            <div className="flex justify-center">
+              <div className="flex flex-col items-center">
+                <div className="w-px h-4 bg-primary/30" />
+                <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/50" />
+              </div>
+            </div>
+            {/* 출력 */}
+            <div className="grid grid-cols-3 gap-2">
+              {([
+                { title: 'Slack 알림', sub: 'Judge 점수 포함' },
+                { title: 'MySQL DB', sub: '기록 저장' },
+                { title: 'GitHub PR', sub: 'Before/After 포함' },
+              ] as { title: string; sub: string }[]).map(({ title, sub }) => (
+                <div key={title} className="rounded-lg border border-outline-variant/20 bg-surface-low px-3 py-2.5 text-center">
+                  <div className="font-space font-bold text-[0.55rem] text-on-surface">{title}</div>
+                  <div className="font-space text-[0.45rem] text-on-variant/50 mt-0.5">{sub}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
     blogUrl: 'https://sangkihan.github.io/posts/ai-log-agent-architecture/',
   },
   {
