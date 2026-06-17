@@ -81,23 +81,48 @@ export const improvements: Improvement[] = [
                 <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/50" />
               </div>
             </div>
-            {/* FastAPI Backend */}
-            <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-              <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-primary/60 mb-3">FastAPI Backend (Python)</div>
-              <div className="grid grid-cols-3 gap-2 mb-3">
-                {([
-                  { title: 'Error Memory', sub: 'ChromaDB\n(memory_*)' },
-                  { title: '로컬 레포지토리', sub: 'grep_files\nread_file' },
-                  { title: 'ReAct Agent', sub: 'LangGraph\n+ Ollama' },
-                ] as { title: string; sub: string }[]).map(({ title, sub }) => (
-                  <div key={title} className="rounded-lg border border-primary/15 bg-surface-lowest/60 px-2 py-2.5 text-center">
-                    <div className="font-space font-bold text-[0.5rem] text-on-surface mb-1">{title}</div>
-                    <div className="font-space text-[0.45rem] text-on-variant/50 whitespace-pre-line leading-relaxed">{sub}</div>
+            {/* 노트북 + Mac Mini */}
+            <div className="rounded-lg border border-outline-variant/20 bg-surface-low p-3">
+              <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40 mb-2">로컬 환경</div>
+              <div className="flex gap-2 items-stretch">
+                {/* 노트북 */}
+                <div className="flex-1 rounded-lg border border-primary/20 bg-primary/5 p-3">
+                  <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-primary/60 mb-2">💻 노트북</div>
+                  <div className="font-space font-bold text-[0.5rem] text-on-variant/70 mb-2">FastAPI Backend (Python)</div>
+                  <div className="space-y-1.5 mb-2">
+                    {([
+                      { title: 'Error Memory', sub: 'ChromaDB (memory_*)' },
+                      { title: '로컬 레포지토리', sub: 'grep_files / read_file' },
+                      { title: 'ReAct Agent', sub: 'LangGraph' },
+                    ] as { title: string; sub: string }[]).map(({ title, sub }) => (
+                      <div key={title} className="rounded border border-primary/10 bg-surface-lowest/60 px-2 py-1.5">
+                        <div className="font-space font-bold text-[0.5rem] text-on-surface">{title}</div>
+                        <div className="font-space text-[0.45rem] text-on-variant/50">{sub}</div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-center">
-                <div className="font-space font-bold text-[0.55rem] text-primary">LLM Judge (Gemini) · 파일 수정 (Gemini)</div>
+                  <div className="rounded border border-primary/20 bg-primary/10 px-2 py-1.5">
+                    <div className="font-space font-bold text-[0.5rem] text-primary">LLM Judge · 파일 수정 (Gemini)</div>
+                  </div>
+                </div>
+                {/* 양방향 화살표 */}
+                <div className="flex flex-col items-center justify-center gap-1 px-1">
+                  <div className="font-space text-[0.55rem] text-primary/50">HTTP</div>
+                  <div className="flex flex-col items-center gap-0.5">
+                    <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[5px] border-b-primary/40" />
+                    <div className="w-px h-6 bg-primary/30" />
+                    <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/40" />
+                  </div>
+                </div>
+                {/* Mac Mini */}
+                <div className="w-28 rounded-lg border border-outline-variant/20 bg-surface-lowest p-3 flex flex-col items-center justify-center gap-2">
+                  <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40">🖥️ Mac Mini</div>
+                  <div className="rounded border border-outline-variant/20 bg-surface-low px-2 py-2 text-center w-full">
+                    <div className="font-space font-bold text-[0.5rem] text-on-surface">Ollama</div>
+                    <div className="font-space text-[0.45rem] text-on-variant/50 mt-0.5">gemma4:12b</div>
+                    <div className="font-space text-[0.4rem] text-on-variant/40 mt-0.5">LLM 추론</div>
+                  </div>
+                </div>
               </div>
             </div>
             {/* 화살표 */}
