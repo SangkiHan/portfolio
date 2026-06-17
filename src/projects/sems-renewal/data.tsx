@@ -12,7 +12,7 @@ export const meta: ProjectMeta = {
   period: '2025.05 ~ 현재',
   org: '티앤엠테크',
   type: 'work',
-  tech: ['Java 17', 'Spring Boot 3', 'PostgreSQL', 'MongoDB', 'Kafka', 'Azure', 'Prometheus', 'Grafana', 'Docker'],
+  tech: ['Java 17', 'Spring Boot 3', 'PostgreSQL', 'MongoDB', 'Kafka', 'Azure', 'Prometheus', 'Grafana', 'Docker', 'Python', 'FastAPI', 'LangChain', 'LangGraph', 'Ollama', 'Gemini', 'ChromaDB'],
 };
 
 export const improvements: Improvement[] = [
@@ -38,7 +38,7 @@ export const improvements: Improvement[] = [
               <div className="space-y-0">
                 {([
                   { label: '서버 에러 발생', sub: 'Spring Boot 등', icon: '⚡' },
-                  { label: 'Webhook 수신', sub: 'FastAPI  POST /api/v1/webhook/error', icon: '↓' },
+                  { label: 'Webhook 수신', sub: 'FastAPI POST /api/v1/webhook/error', icon: '↓' },
                   { label: 'Git fetch', sub: '최신 소스코드 로컬 동기화', icon: '①' },
                   { label: 'Error Memory 검색', sub: '과거 유사 사례 조회 (ChromaDB)', icon: '②' },
                   { label: 'ReAct Agent 분석', sub: 'LangGraph + Ollama — grep_files / read_file / list_directory', icon: '③' },
