@@ -92,7 +92,7 @@ export const improvements: Improvement[] = [
                   <div className="space-y-1.5 mb-2">
                     {([
                       { title: 'Error Memory', sub: 'ChromaDB (memory_*)' },
-                      { title: '로컬 레포지토리', sub: 'grep_files / read_file' },
+                      { title: 'LangChain', sub: 'File Tools' },
                       { title: 'ReAct Agent', sub: 'LangGraph' },
                     ] as { title: string; sub: string }[]).map(({ title, sub }) => (
                       <div key={title} className="rounded border border-primary/10 bg-surface-lowest/60 px-2 py-1.5">
