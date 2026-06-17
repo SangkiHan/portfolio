@@ -81,13 +81,13 @@ export const improvements: Improvement[] = [
                 <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/50" />
               </div>
             </div>
-            {/* 노트북 + Mac Mini */}
+            {/* 서버 + Mac Mini */}
             <div className="rounded-lg border border-outline-variant/20 bg-surface-low p-3">
               <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40 mb-2">로컬 환경</div>
               <div className="flex gap-2 items-stretch">
-                {/* 노트북 */}
+                {/* 서버 */}
                 <div className="flex-1 rounded-lg border border-primary/20 bg-primary/5 p-3">
-                  <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-primary/60 mb-2">💻 노트북</div>
+                  <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-primary/60 mb-2">💻 서버</div>
                   <div className="font-space font-bold text-[0.5rem] text-on-variant/70 mb-2">FastAPI Backend (Python)</div>
                   <div className="space-y-1.5 mb-2">
                     {([
