@@ -17,6 +17,17 @@ export const meta: ProjectMeta = {
 
 export const improvements: Improvement[] = [
   {
+    title: 'Ollama + 로컬 LLM(gemma4:12b)을 활용한 에러 탐지, 코드 리팩토링 제안 및 PR 생성 시스템',
+    details: [
+      '서버 에러 발생 시 Webhook으로 수신해 LangGraph ReAct 에이전트(Ollama/Gemma4)가 소스코드를 직접 탐색·분석하고 수정안을 JSON으로 반환',
+      'grep_files / read_file / list_directory 3개 도구를 LangChain @tool로 정의해 에이전트가 스택 트레이스에서 클래스명을 추출 → 파일 탐색 → 실제 코드 확인 → Before/After 수정안 생성 순으로 자율 추론',
+      'ChromaDB 기반 Error Memory로 과거 유사 에러 분석 사례를 벡터 검색해 프롬프트에 주입, 반복 에러일수록 분석 품질이 향상되는 구조',
+      'Gemini를 LLM Judge로 활용해 Ollama 수정안을 독립적으로 검증, self-evaluation bias 제거 및 신뢰도 점수를 Slack 알림에 함께 표시',
+      'Slack 수락 버튼 클릭 한 번으로 Gemini가 코드 수정 적용 → GitHub PR 자동 생성까지 완전 자동화',
+    ],
+    blogUrl: 'https://sangkihan.github.io/posts/ai-log-agent-architecture/',
+  },
+  {
     title: '데이터 유실 방지를 위한 Kafka 기반 데이터 파이프라인 구축',
     metric: '17,000 devices',
     details: [
