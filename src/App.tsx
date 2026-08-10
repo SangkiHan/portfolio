@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PuppyNote } from './projects/puppynote';
+import { TnmPlatform } from './projects/tnm-platform';
 import { SemsRenewal } from './projects/sems-renewal';
 import { SemsMaintenance } from './projects/sems-maintenance';
 import { Luckkids } from './projects/luckkids';
@@ -16,7 +17,7 @@ const skills = [
 ];
 
 const careers = [
-  { company: '티앤엠테크', period: '2025.05 ~ 현재', role: 'Backend Developer', desc: 'GS25·GSFRESH 점포관리 시스템(SEMS) 유지보수 및 리뉴얼 서버 API 신규개발' },
+  { company: '티앤엠테크', period: '2025.05 ~ 현재', role: 'Backend Developer', desc: 'TNM 플랫폼(IoT 관제 플랫폼) 신규개발, GS25·GSFRESH 점포관리 시스템(SEMS) 유지보수 및 리뉴얼 서버 API 신규개발' },
   { company: '큐텐테크놀로지', period: '2024.05 ~ 2024.12', role: 'Backend Developer', desc: '큐텐·티몬·위메프·인터파크 Analytics 웹, 사내 그룹웨어 유지보수' },
   { company: '모빌씨앤씨', period: '2021.08 ~ 2024.03', role: 'Backend Developer', desc: 'SK쉴더스 B2B·B2C 앱 서버 유지보수, (주)캡스텍 PLANIN 신규개발 및 유지보수' },
 ];
@@ -61,13 +62,13 @@ const App = () => {
           </h2>
           <div className="space-y-3 mb-8 max-w-2xl text-sm md:text-base text-on-surface/70 leading-relaxed">
             <p>
-              티앤엠테크에서 GS25·GSFRESH 점포관리 시스템(SEMS)의 신규 개발과 성능 개선을 담당하고 있습니다.
+              안녕하세요. 실측 데이터를 근거로 성능을 개선하는 걸 좋아하는 백엔드 개발자 한상기입니다. 티앤엠테크에서 GS25·GSFRESH 점포관제 시스템(SEMS)의 고도화 및 유지보수를 담당하고 있습니다.
             </p>
             <p>
-              30억 건 MySQL→MongoDB 마이그레이션으로 조회 API를 40배(8s→200ms) 개선하고, 600만 건 날씨 예보 테이블에 파티셔닝을 적용해 쿼리를 11배(10s→900ms) 개선하는 등 실측 데이터 기반의 성능 최적화를 즐깁니다.
+              점포의 5분 단위 전력·온도 데이터 약 30억 건을 MySQL에서 MongoDB로 이관해 조회 API 성능을 8초 → 200ms(약 40배)로 개선했고, 대용량 테이블에 파티셔닝을 적용해 조회 쿼리를 10초 → 900ms(약 11배)로 개선했습니다.
             </p>
             <p>
-              JUnit·TDD로 테스트 코드 작성을 습관화하고 있으며, 업무 외적으로는 스터디 그룹과 함께 기획부터 운영까지 직접 참여한 럭키즈 앱(800명+)을 운영 중입니다.
+              Kafka 기반 비동기 메시징 파이프라인을 도입해 데이터 유실 문제를 근본적으로 해결했습니다. 문제를 추측이 아니라 실측 데이터로 확인하고, 구조적으로 해결하는 과정을 즐깁니다.
             </p>
           </div>
 
@@ -154,6 +155,7 @@ const App = () => {
         <section id="projects">
           <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">Projects</p>
           <div className="space-y-16">
+            <TnmPlatform />
             <SemsRenewal />
             <PuppyNote />
             <SemsMaintenance />
