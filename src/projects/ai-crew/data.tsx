@@ -1,7 +1,7 @@
 import type { ProjectMeta, Improvement } from '../types';
 
 export const meta: ProjectMeta = {
-  title: 'AI 활용법 — 멀티 에이전트 팀 오케스트레이션',
+  title: 'ai-crew (멀티 에이전트 팀 오케스트레이션 툴)',
   description: '여러 사이드 프로젝트를 동시에 굴리며 매번 반복되던 "터미널 열기 → 컨텍스트 설명 → 결과 확인" 사이클을 없애기 위해 만든 개인 도구 "ai-crew"입니다. 팀장 1명이 요청을 티켓으로 쪼개 프로젝트별 직원(Claude Code / Codex / Antigravity)에게 위임하고, 사람은 조직도 UI에서 진행 상황을 보다가 필요할 때만 개입합니다.',
   role: 'Full Stack Developer',
   period: '2026.07 ~ 현재',
