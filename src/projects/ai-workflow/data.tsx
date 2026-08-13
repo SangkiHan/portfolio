@@ -221,11 +221,8 @@ export const improvements: Improvement[] = [
   {
     title: 'CLAUDE.md · SKILL.md로 코드 컨벤션 문서화',
     details: [
-      'Controller → Service → Repository 계층 구조와 도메인별 패키지 분리 규칙을 프로젝트 루트 CLAUDE.md에 명시',
-      'Controller의 request는 toServiceRequest()로, Service의 request는 toEntity()로만 변환하도록 강제해 계층 간 결합도를 낮추는 규칙을 문서화',
-      '다른 도메인의 데이터는 해당 도메인 Service를 거쳐서만 접근하도록(Repository 직접 호출 금지) 규칙화 — AI가 임의로 계층을 건너뛰는 코드를 만들지 않도록 방지',
-      '응답 포맷 통일(ApiResponse<T>), 에러·로그 메시지는 한국어로 작성 등 세부 컨벤션까지 명시해, 새 기능을 AI에게 위임해도 매번 같은 스타일의 코드가 나오도록 구성',
-      'CLAUDE.md 외에도 커밋 메시지·테스트 코드·API 문서화처럼 반복 작업마다 별도 SKILL.md를 두어, 언제(When to use) 어떤 규칙(How to)을 적용할지 세분화',
+      '프로젝트 아키텍처와 코딩 컨벤션을 CLAUDE.md에 문서화해, AI에게 작업을 맡길 때마다 같은 방향으로 코드를 작성하도록 안내',
+      '커밋 메시지·테스트 코드·API 문서화처럼 반복되는 작업은 별도 SKILL.md로 나눠, 상황에 맞는 지침만 참고하도록 구성',
     ],
     diagram: (
       <details className="mt-4 rounded-xl border border-outline-variant/15 overflow-hidden">
