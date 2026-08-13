@@ -5,7 +5,6 @@ import { SemsRenewal } from './projects/sems-renewal';
 import { SemsMaintenance } from './projects/sems-maintenance';
 import { Luckkids } from './projects/luckkids';
 import { Planin } from './projects/planin';
-import { AiCrew } from './projects/ai-crew';
 import { AiWorkflow } from './projects/ai-workflow';
 
 
@@ -166,7 +165,6 @@ const App = () => {
           <div className="space-y-16">
             <TnmPlatform />
             <SemsRenewal />
-            <AiCrew />
             <PuppyNote />
             <SemsMaintenance />
             <Luckkids />
