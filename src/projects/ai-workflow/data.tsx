@@ -187,7 +187,7 @@ const LogAgentArchitecture = () => {
 };
 
 export const meta: ProjectMeta = {
-  title: 'AI 활용법',
+  title: 'AI 활용 전략',
   description: '실무에서 AI를 어떻게 활용하는지 정리했습니다. 멀티 에이전트로 여러 프로젝트를 동시에 위임하고, 서버 에러가 나면 자동으로 원인을 분석해 PR까지 만들고, 프로젝트마다 코딩 컨벤션을 문서화해 AI가 매번 같은 스타일로 코드를 작성하게 합니다.',
   role: '실무 적용 사례',
   period: '2026 ~ 현재',

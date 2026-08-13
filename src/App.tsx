@@ -153,9 +153,9 @@ const App = () => {
           </div>
         </section>
 
-        {/* AI 활용법 */}
+        {/* AI 활용 전략 */}
         <section>
-          <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">AI 활용법</p>
+          <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">AI 활용 전략</p>
           <AiWorkflow />
         </section>
 
