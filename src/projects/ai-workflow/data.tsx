@@ -118,6 +118,74 @@ const AiCrewArchitecture = () => {
   );
 };
 
+const LogAgentArchitecture = () => {
+  const steps: { label: string; sub: string }[] = [
+    { label: '서버 에러 발생', sub: 'Spring Boot 등 운영 서버' },
+    { label: 'Webhook 수신', sub: 'FastAPI POST /api/v1/webhook/error' },
+    { label: 'Git fetch', sub: '최신 소스코드 로컬 동기화' },
+    { label: 'Error Memory 검색', sub: 'ChromaDB에서 과거 유사 에러 사례 조회 → 프롬프트에 주입' },
+    { label: 'ReAct Agent 분석', sub: 'LangGraph + Gemini — grep_files/read_file/list_directory로 스택 트레이스의 클래스명을 추적해 실제 소스 탐색' },
+    { label: 'LLM Judge 검증', sub: 'Gemini Flash가 분석 에이전트(Flash Lite)의 수정안을 독립적으로 재검증, self-evaluation bias 감소' },
+    { label: 'Slack 알림', sub: '원인·Before/After 코드·Judge 점수 발송, [수락] [거절] 버튼 제공' },
+    { label: '수락 클릭 → GitHub PR 생성', sub: 'Gemini가 파일 수정 적용 → 새 브랜치 커밋 → PR 자동 생성, 사람 개입은 클릭 한 번' },
+  ];
+
+  return (
+    <div className="mt-4 space-y-3">
+
+      {/* 시스템 구성도 */}
+      <div className="rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+        <div className="px-4 py-2.5 bg-surface-low border-b border-outline-variant/10">
+          <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">시스템 구성도</span>
+        </div>
+        <div className="px-5 py-5">
+          <div className="flex flex-col items-center gap-1">
+            <Box title="운영 서버" sub="Spring Boot 등 — 에러 발생 시 Webhook 전송" />
+            <DownArrow label="POST /api/v1/webhook/error" />
+            <Box title="FastAPI Backend" sub="Error Memory(ChromaDB) · LangChain File Tools · ReAct Agent(LangGraph)" tone="primary" />
+            <DownArrow label="API 호출" />
+            <Box title="Gemini API" sub="Flash Lite(분석·파일 수정) · Flash(Judge) · text-embedding-004(임베딩)" tone="primary" />
+            <DownArrow />
+            <div className="flex flex-wrap justify-center gap-3">
+              <Box title="Slack 알림" sub="Judge 점수 포함" />
+              <Box title="MySQL DB" sub="기록 저장" />
+              <Box title="GitHub PR" sub="Before/After 포함" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 파이프라인 */}
+      <div className="rounded-xl border border-outline-variant/10 bg-surface-lowest overflow-hidden">
+        <div className="px-4 py-2.5 bg-surface-low border-b border-outline-variant/10">
+          <span className="font-space font-bold text-[0.6rem] uppercase tracking-widest text-on-variant/50">에러 발생부터 PR 생성까지</span>
+        </div>
+        <div className="px-5 py-4">
+          <div className="relative">
+            <div className="absolute left-[1.15rem] top-3 bottom-3 w-px bg-outline-variant/20" />
+            <div className="space-y-0">
+              {steps.map(({ label, sub }, i) => (
+                <div key={i} className="flex gap-3 pl-1 pb-3 last:pb-0">
+                  <div className="w-8 flex flex-col items-center shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0 z-10">
+                      <span className="font-space font-bold text-[0.5rem] text-primary">{i + 1}</span>
+                    </div>
+                  </div>
+                  <div className="pt-0.5 pb-1">
+                    <div className="font-space font-bold text-[0.65rem] text-on-surface">{label}</div>
+                    <div className="font-space text-[0.55rem] text-on-variant/50 mt-0.5">{sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+};
+
 export const meta: ProjectMeta = {
   title: 'AI 활용법',
   description: '실무에서 AI를 어떻게 활용하는지 정리했습니다. 멀티 에이전트로 여러 프로젝트를 동시에 위임하고, 서버 에러가 나면 자동으로 원인을 분석해 PR까지 만들고, 프로젝트마다 코딩 컨벤션을 문서화해 AI가 매번 같은 스타일로 코드를 작성하게 합니다.',
@@ -149,6 +217,7 @@ export const improvements: Improvement[] = [
       '분석 에이전트가 만든 수정안을 별도 LLM Judge가 독립적으로 재검증해 self-evaluation bias를 줄이고, Slack에 원인·수정 코드·Judge 점수를 함께 발송',
       'Slack 승인 버튼 클릭 한 번 → Gemini가 실제 파일 수정 적용 → GitHub PR 자동 생성까지, 에러 감지부터 PR까지 사람 개입은 클릭 한 번',
     ],
+    diagram: <LogAgentArchitecture />,
     blogUrl: 'https://sangkihan.github.io/posts/ai-log-agent-architecture/',
   },
   {
