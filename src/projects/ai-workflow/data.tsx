@@ -62,19 +62,23 @@ const AiCrewArchitecture = () => {
             </div>
           </div>
 
-          {/* 연결 화살표 */}
-          <DownArrow label="ws://localhost:8080/ws/runner — server ↔ runner 양방향 (job_assign/invoke_manager ↔ job_log/job_status)" />
-
           {/* 호스트 그룹 */}
-          <div className="rounded-xl border border-outline-variant/20 bg-surface-low p-4">
+          <div className="mt-4 rounded-xl border border-outline-variant/20 bg-surface-low p-4">
             <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/50 mb-3">💻 호스트 (컨테이너 아님)</div>
-            <div className="flex flex-wrap items-center justify-center gap-1">
-              <Box title="runner 데몬" sub="CLI 프로세스를 실제로 스폰" />
+            <div className="flex flex-wrap items-end justify-center gap-1">
+              <div className="flex flex-col items-center">
+                <span className="font-space text-[0.5rem] text-primary/60 text-center px-1 mb-0.5">server가 호출<br />ws://localhost:8080/ws/runner<br />(양방향)</span>
+                <DownArrow />
+                <Box title="runner 데몬" sub="server와 WS로 항상 연결, CLI 프로세스를 실제로 스폰" tone="primary" />
+              </div>
               <RightArrow label="spawn" />
-              <Box title="claude / codex / antigravity CLI" sub="팀장·직원마다 독립된 프로세스(세션)" tone="primary" />
+              <Box title="Claude Code CLI" sub="팀장·직원마다 독립된 프로세스(세션)" />
               <RightArrow label="read/write" />
               <Box title="실제 프로젝트 폴더" sub="WORKSPACE_ROOT (기존 툴체인 그대로 사용)" />
             </div>
+            <p className="mt-3 text-[0.55rem] text-on-variant/50 leading-relaxed">
+              runner → server 응답: job_log / job_status / job_heartbeat (같은 WS 연결로 회신)
+            </p>
           </div>
 
           <p className="mt-4 text-[0.7rem] text-on-variant/60 leading-relaxed">
@@ -130,7 +134,7 @@ export const improvements: Improvement[] = [
       '여러 사이드 프로젝트를 동시에 굴리며 매번 반복되던 "터미널 열기 → 컨텍스트 설명 → 결과 확인" 사이클을 없애기 위해 만든 개인 도구',
       '팀(Team): 격리 단위 — 팀마다 직원 명단·티켓·팀장 대화 세션·담당 프로젝트가 서로 독립적',
       '팀장(Manager): 항상 Claude Code 고정 — 요청을 작업 단위로 쪼개 적합한 직원에게 위임만 하고, 코드는 직접 수정하지 않음',
-      '직원(Employee): 이름 기반 DB 레코드 — 고정 역할 없이 자유 텍스트 taskDescription으로 정의하고, driver(Claude Code/Codex/Antigravity)를 프로젝트별로 자유롭게 설정',
+      '직원(Employee): 이름 기반 DB 레코드 — 고정 역할 없이 자유 텍스트 taskDescription으로 정의하고, Claude Code CLI로 구동',
       '티켓(Ticket): 팀장·직원이 소통하는 작업 단위 — queued → running → review/qa_review → done 순으로 진행되고, 담당 밖 작업이 필요하면 blocked로 전환돼 팀장이 다른 직원에게 자동으로 재위임',
       '사람이 실제로 개입하는 지점은 위험한 명령 실행 직전, QA 3연속 반려 시 하나뿐 — 그 외에는 팀장이 자동으로 결과를 요약해 보고',
     ],
