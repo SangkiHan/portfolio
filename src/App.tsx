@@ -4,11 +4,13 @@ import { SemsRenewal } from './projects/sems-renewal';
 import { SemsMaintenance } from './projects/sems-maintenance';
 import { Luckkids } from './projects/luckkids';
 import { Planin } from './projects/planin';
+import { AiCrew } from './projects/ai-crew';
 
 
 const skills = [
   { label: 'Backend', items: ['Java', 'Spring Framework', 'MyBatis', 'JPA', 'JUnit', 'Kafka'] },
   { label: 'Database', items: ['MySQL', 'PostgreSQL', 'MSSQL', 'AWS Aurora', 'Redis', 'MongoDB', 'ElasticSearch'] },
+  { label: 'AI/LLM', items: ['LangChain', 'LangGraph', 'MCP', 'Ollama', 'Gemini API', 'ChromaDB', 'Claude Code'] },
   { label: 'Cloud', items: ['AWS', 'Azure'] },
   { label: 'CI/CD', items: ['Jenkins', 'AWS CodePipeline', 'GitHub Actions'] },
   { label: 'Monitoring', items: ['Prometheus', 'Grafana'] },
@@ -19,6 +21,25 @@ const careers = [
   { company: '티앤엠테크', period: '2025.05 ~ 현재', role: 'Backend Developer', desc: 'GS25·GSFRESH 점포관리 시스템(SEMS) 유지보수 및 리뉴얼 서버 API 신규개발' },
   { company: '큐텐테크놀로지', period: '2024.05 ~ 2024.12', role: 'Backend Developer', desc: '큐텐·티몬·위메프·인터파크 Analytics 웹, 사내 그룹웨어 유지보수' },
   { company: '모빌씨앤씨', period: '2021.08 ~ 2024.03', role: 'Backend Developer', desc: 'SK쉴더스 B2B·B2C 앱 서버 유지보수, (주)캡스텍 PLANIN 신규개발 및 유지보수' },
+];
+
+const aiWorkflow = [
+  {
+    title: '멀티 에이전트 팀 오케스트레이션 (ai-crew)',
+    desc: '팀장 1명이 요청을 티켓으로 쪼개 프로젝트별 AI 직원(Claude Code/Codex/Antigravity)에게 위임하는 개인 도구를 직접 구축·운영. blocked 에스컬레이션으로 프론트↔백엔드 티켓이 자동 연계되는 것까지 실전 검증했습니다.',
+    linkLabel: '블로그에서 보기',
+    linkUrl: 'https://sangkihan.github.io/posts/ai-crew-intro/',
+  },
+  {
+    title: '운영 에러 자동 분석 · PR 생성 에이전트',
+    desc: '리뉴얼 SEMS 서버에 500 에러가 발생하면 LangGraph ReAct 에이전트가 소스코드를 직접 탐색해 수정안을 제시하고, 다른 LLM이 Judge로 검증한 뒤 Slack 승인 한 번으로 GitHub PR까지 자동 생성합니다.',
+    linkLabel: '프로젝트에서 보기',
+    linkUrl: '#projects',
+  },
+  {
+    title: 'CLAUDE.md · SKILL.md로 코드 컨벤션 문서화',
+    desc: '계층 구조, 요청·엔티티 변환 규칙, 도메인 간 접근 규칙 같은 프로젝트별 컨벤션을 CLAUDE.md와 .claude/skills에 문서화해, AI에게 위임한 작업도 매번 같은 스타일과 규칙을 따르도록 관리합니다.',
+  },
 ];
 
 const educations = [
@@ -150,11 +171,35 @@ const App = () => {
           </div>
         </section>
 
+        {/* AI Workflow */}
+        <section>
+          <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">AI Workflow</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {aiWorkflow.map((item) => (
+              <div key={item.title} className="rounded-2xl border border-outline-variant/10 bg-surface-low p-5 flex flex-col gap-3">
+                <p className="font-manrope font-bold text-sm leading-snug">{item.title}</p>
+                <p className="text-on-surface/70 text-sm leading-relaxed flex-1">{item.desc}</p>
+                {item.linkUrl && (
+                  <a
+                    href={item.linkUrl}
+                    target={item.linkUrl.startsWith('#') ? undefined : '_blank'}
+                    rel={item.linkUrl.startsWith('#') ? undefined : 'noopener noreferrer'}
+                    className="font-space font-bold text-[0.55rem] uppercase tracking-widest text-primary/70 hover:text-primary transition-colors"
+                  >
+                    {item.linkLabel} →
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Projects */}
         <section id="projects">
           <p className="font-space font-bold text-[0.6rem] uppercase tracking-[0.3em] text-primary mb-6">Projects</p>
           <div className="space-y-16">
             <SemsRenewal />
+            <AiCrew />
             <PuppyNote />
             <SemsMaintenance />
             <Luckkids />
