@@ -42,7 +42,7 @@ export const ImprovementItem = ({ improvement, index, isOpen, onToggle }: Improv
       </svg>
     </button>
 
-    <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[1500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+    <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[6000px] opacity-100' : 'max-h-0 opacity-0'}`}>
       <div className="px-3 md:px-6 pb-4 md:pb-6 pt-2 space-y-2">
         {improvement.details.map((detail, i) => (
           <div key={i} className="flex gap-3 text-sm text-on-variant leading-relaxed">
