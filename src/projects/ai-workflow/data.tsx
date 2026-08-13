@@ -207,7 +207,6 @@ export const improvements: Improvement[] = [
       '사람이 실제로 개입하는 지점은 위험한 명령 실행 직전, QA 3연속 반려 시 하나뿐 — 그 외에는 팀장이 자동으로 결과를 요약해 보고',
     ],
     diagram: <AiCrewArchitecture />,
-    blogUrl: 'https://sangkihan.github.io/posts/ai-crew-intro/',
   },
   {
     title: '운영 서버 에러 자동 분석 · PR 생성 에이전트',
@@ -218,7 +217,6 @@ export const improvements: Improvement[] = [
       'Slack 승인 버튼 클릭 한 번 → Gemini가 실제 파일 수정 적용 → GitHub PR 자동 생성까지, 에러 감지부터 PR까지 사람 개입은 클릭 한 번',
     ],
     diagram: <LogAgentArchitecture />,
-    blogUrl: 'https://sangkihan.github.io/posts/ai-log-agent-architecture/',
   },
   {
     title: 'CLAUDE.md · SKILL.md로 코드 컨벤션 문서화',
