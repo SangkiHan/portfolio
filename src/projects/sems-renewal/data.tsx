@@ -12,17 +12,17 @@ export const meta: ProjectMeta = {
   period: '2025.05 ~ 현재',
   org: '티앤엠테크',
   type: 'work',
-  tech: ['Java 17', 'Spring Boot 3', 'PostgreSQL', 'MongoDB', 'Kafka', 'Azure', 'Prometheus', 'Grafana', 'Docker', 'Python', 'FastAPI', 'LangChain', 'LangGraph', 'Ollama', 'Gemini', 'ChromaDB'],
+  tech: ['Java 17', 'Spring Boot 3', 'PostgreSQL', 'MongoDB', 'Kafka', 'Azure', 'Prometheus', 'Grafana', 'Docker', 'Python', 'FastAPI', 'LangChain', 'LangGraph', 'Gemini', 'ChromaDB'],
 };
 
 export const improvements: Improvement[] = [
   {
-    title: 'Ollama + 로컬 LLM(gemma4:12b)을 활용한 에러 탐지, 코드 리팩토링 제안 및 PR 생성 시스템',
+    title: 'Gemini API를 활용한 서버 에러 자동 분석, 코드 수정 제안 및 PR 생성 시스템',
     details: [
-      '서버 에러 발생 시 Webhook으로 수신해 LangGraph ReAct 에이전트(Ollama/Gemma4)가 소스코드를 직접 탐색·분석하고 수정안을 JSON으로 반환',
+      '서버 에러 발생 시 Webhook으로 수신해 LangGraph ReAct 에이전트(Gemini Flash Lite)가 소스코드를 직접 탐색·분석하고 수정안을 JSON으로 반환',
       'grep_files / read_file / list_directory 3개 도구를 LangChain @tool로 정의해 에이전트가 스택 트레이스에서 클래스명을 추출 → 파일 탐색 → 실제 코드 확인 → Before/After 수정안 생성 순으로 자율 추론',
-      'ChromaDB 기반 Error Memory로 과거 유사 에러 분석 사례를 벡터 검색해 프롬프트에 주입, 반복 에러일수록 분석 품질이 향상되는 구조',
-      'Gemini를 LLM Judge로 활용해 Ollama 수정안을 독립적으로 검증, self-evaluation bias 제거 및 신뢰도 점수를 Slack 알림에 함께 표시',
+      'ChromaDB + Gemini text-embedding-004 기반 Error Memory로 과거 유사 에러 분석 사례를 벡터 검색해 프롬프트에 주입, 반복 에러일수록 분석 품질이 향상되는 구조',
+      'Gemini Flash를 LLM Judge로 활용해 분석 에이전트(Flash Lite) 수정안을 독립적으로 검증, 다른 모델 버전으로 self-evaluation bias 감소 및 신뢰도 점수를 Slack 알림에 함께 표시',
       'Slack 수락 버튼 클릭 한 번으로 Gemini가 코드 수정 적용 → GitHub PR 자동 생성까지 완전 자동화',
     ],
     diagram: (
@@ -41,7 +41,7 @@ export const improvements: Improvement[] = [
                   { label: 'Webhook 수신', sub: 'FastAPI POST /api/v1/webhook/error', icon: '↓' },
                   { label: 'Git fetch', sub: '최신 소스코드 로컬 동기화', icon: '①' },
                   { label: 'Error Memory 검색', sub: '과거 유사 사례 조회 (ChromaDB)', icon: '②' },
-                  { label: 'ReAct Agent 분석', sub: 'LangGraph + Ollama — grep_files / read_file / list_directory', icon: '③' },
+                  { label: 'ReAct Agent 분석', sub: 'LangGraph + Gemini — grep_files / read_file / list_directory', icon: '③' },
                   { label: 'LLM Judge', sub: 'Gemini — 수정안 품질 자동 평가', icon: '④' },
                   { label: 'Slack 알림', sub: '분석 결과 + Judge 점수 + Before/After 코드', icon: '⑤' },
                   { label: '수락 클릭 → GitHub PR 생성', sub: 'Gemini 파일 수정 적용 → PR 자동 생성', icon: '⑥' },
@@ -81,9 +81,9 @@ export const improvements: Improvement[] = [
                 <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/50" />
               </div>
             </div>
-            {/* 서버 + Mac Mini */}
+            {/* 서버 + Gemini API */}
             <div className="rounded-lg border border-outline-variant/20 bg-surface-low p-3">
-              <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40 mb-2">로컬 환경</div>
+              <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40 mb-2">실행 환경</div>
               <div className="flex gap-2 items-stretch">
                 {/* 서버 */}
                 <div className="flex-1 rounded-lg border border-primary/20 bg-primary/5 p-3">
@@ -92,7 +92,7 @@ export const improvements: Improvement[] = [
                   <div className="space-y-1.5 mb-2">
                     {([
                       { title: 'Error Memory', sub: 'ChromaDB (memory_*)' },
-                      { title: 'LangChain', sub: 'File Tools' },
+                      { title: 'LangChain', sub: 'File Tools (grep / read)' },
                       { title: 'ReAct Agent', sub: 'LangGraph' },
                     ] as { title: string; sub: string }[]).map(({ title, sub }) => (
                       <div key={title} className="rounded border border-primary/10 bg-surface-lowest/60 px-2 py-1.5">
@@ -101,26 +101,32 @@ export const improvements: Improvement[] = [
                       </div>
                     ))}
                   </div>
-                  <div className="rounded border border-primary/20 bg-primary/10 px-2 py-1.5">
-                    <div className="font-space font-bold text-[0.5rem] text-primary">LLM Judge · 파일 수정 (Gemini)</div>
-                  </div>
                 </div>
-                {/* 양방향 화살표 */}
+                {/* 화살표 */}
                 <div className="flex flex-col items-center justify-center gap-1 px-1">
-                  <div className="font-space text-[0.55rem] text-primary/50">HTTP</div>
+                  <div className="font-space text-[0.55rem] text-primary/50">API</div>
                   <div className="flex flex-col items-center gap-0.5">
                     <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[5px] border-b-primary/40" />
                     <div className="w-px h-6 bg-primary/30" />
                     <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-primary/40" />
                   </div>
                 </div>
-                {/* Mac Mini */}
-                <div className="w-28 rounded-lg border border-outline-variant/20 bg-surface-lowest p-3 flex flex-col items-center justify-center gap-2">
-                  <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-on-variant/40">🖥️ Mac Mini</div>
-                  <div className="rounded border border-outline-variant/20 bg-surface-low px-2 py-2 text-center w-full">
-                    <div className="font-space font-bold text-[0.5rem] text-on-surface">Ollama</div>
-                    <div className="font-space text-[0.45rem] text-on-variant/50 mt-0.5">gemma4:12b</div>
-                    <div className="font-space text-[0.4rem] text-on-variant/40 mt-0.5">LLM 추론</div>
+                {/* Gemini API */}
+                <div className="w-32 rounded-lg border border-primary/20 bg-primary/5 p-3 flex flex-col items-center justify-center gap-2">
+                  <div className="font-space font-bold text-[0.5rem] uppercase tracking-widest text-primary/60">☁️ Gemini API</div>
+                  <div className="space-y-1.5 w-full">
+                    <div className="rounded border border-primary/10 bg-surface-lowest/60 px-2 py-1.5 text-center">
+                      <div className="font-space font-bold text-[0.5rem] text-on-surface">Flash Lite</div>
+                      <div className="font-space text-[0.4rem] text-on-variant/50 mt-0.5">분석 · 파일 수정</div>
+                    </div>
+                    <div className="rounded border border-primary/10 bg-surface-lowest/60 px-2 py-1.5 text-center">
+                      <div className="font-space font-bold text-[0.5rem] text-on-surface">Flash (Judge)</div>
+                      <div className="font-space text-[0.4rem] text-on-variant/50 mt-0.5">품질 자동 평가</div>
+                    </div>
+                    <div className="rounded border border-primary/10 bg-surface-lowest/60 px-2 py-1.5 text-center">
+                      <div className="font-space font-bold text-[0.5rem] text-on-surface">text-embedding-004</div>
+                      <div className="font-space text-[0.4rem] text-on-variant/50 mt-0.5">Error Memory 임베딩</div>
+                    </div>
                   </div>
                 </div>
               </div>
